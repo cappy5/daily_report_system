@@ -30,7 +30,7 @@ public enum MessageConst {
         this.text = text;
     }
 
-    public String getValue() {
+    public String getMessage() {
         return this.text;
     }
 }
