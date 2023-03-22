@@ -6,7 +6,7 @@ package constants;
  */
 public enum AttributeConst {
 
-    //フレッシュメッセージ
+    //フラッシュメッセージ
     FLUSH("flush"),
 
     //一覧画面共通
@@ -70,10 +70,5 @@ public enum AttributeConst {
     public Integer getIntegerValue() {
         return this.i;
     }
-
-
-
-
-
 
 }

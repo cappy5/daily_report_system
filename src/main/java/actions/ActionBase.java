@@ -20,7 +20,6 @@ import constants.PropertyConst;
  *
  */
 public abstract class ActionBase {
-
     protected ServletContext context;
     protected HttpServletRequest request;
     protected HttpServletResponse response;
@@ -53,23 +52,29 @@ public abstract class ActionBase {
      * @throws ServletException
      * @throws IOException
      */
-    protected void invoke() throws ServletException, IOException {
+    protected void invoke()
+            throws ServletException, IOException {
 
         Method commandMethod;
-
         try {
+
+            //パラメータからcommandを取得
             String command = request.getParameter(ForwardConst.CMD.getValue());
 
+            //ommandに該当するメソッドを実行する
+            //(例: action=Employee command=show の場合 EmployeeActionクラスのshow()メソッドを実行する)
             commandMethod = this.getClass().getDeclaredMethod(command, new Class[0]);
-            commandMethod.invoke(this, new Object[0]);
+            commandMethod.invoke(this, new Object[0]); //メソッドに渡す引数はなし
 
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
                 | InvocationTargetException | NullPointerException e) {
 
+            //発生した例外をコンソールに表示
             e.printStackTrace();
+            //commandの値が不正で実行できない場合エラー画面を呼び出し
             forward(ForwardConst.FW_ERR_UNKNOWN);
-
         }
+
     }
 
     /**
@@ -79,9 +84,14 @@ public abstract class ActionBase {
      * @throws IOException
      */
     protected void forward(ForwardConst target) throws ServletException, IOException {
+
+        //jspファイルの相対パスを作成
         String forward = String.format("/WEB-INF/views/%s.jsp", target.getValue());
         RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
+
+        //jspファイルの呼び出し
         dispatcher.forward(request, response);
+
     }
 
     /**
@@ -91,12 +101,18 @@ public abstract class ActionBase {
      * @throws ServletException
      * @throws IOException
      */
-    protected void redirect(ForwardConst action, ForwardConst command) throws ServletException, IOException {
+    protected void redirect(ForwardConst action, ForwardConst command)
+            throws ServletException, IOException {
+
+        //URLを構築
         String redirectUrl = request.getContextPath() + "/?action=" + action.getValue();
         if (command != null) {
             redirectUrl = redirectUrl + "&command=" + command.getValue();
         }
+
+        //URLへリダイレクト
         response.sendRedirect(redirectUrl);
+
     }
 
     /**
@@ -106,14 +122,20 @@ public abstract class ActionBase {
      * @throws IOException
      */
     protected boolean checkToken() throws ServletException, IOException {
+
+        //パラメータからtokenの値を取得
         String _token = getRequestParam(AttributeConst.TOKEN);
 
         if (_token == null || !(_token.equals(getTokenId()))) {
+
+            //tokenが設定されていない、またはセッションIDと一致しない場合はエラー画面を表示
             forward(ForwardConst.FW_ERR_UNKNOWN);
+
             return false;
         } else {
             return true;
         }
+
     }
 
     /**
@@ -150,7 +172,6 @@ public abstract class ActionBase {
             number = Integer.MIN_VALUE;
         }
         return number;
-
     }
 
     /**
