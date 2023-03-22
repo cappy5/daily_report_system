@@ -199,7 +199,7 @@ public class EmployeeService extends ServiceBase {
      * @param code 社員番号
      * @param plainPass パスワード
      * @param pepper pepper文字列
-     * @return 認証結果を返却す(成功:true 失敗:false)
+     * @return 認証結果を返却する(成功:true 失敗:false)
      */
     public Boolean validateLogin(String code, String plainPass, String pepper) {
 
