@@ -75,5 +75,4 @@ public class ReportConverter {
         r.setCreatedAt(rv.getCreatedAt());
         r.setUpdatedAt(rv.getUpdatedAt());
     }
-
 }
