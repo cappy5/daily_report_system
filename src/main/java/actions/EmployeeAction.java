@@ -170,8 +170,7 @@ public class EmployeeAction extends ActionBase {
                 putRequestScope(AttributeConst.TOKEN, getTokenId());
                 putRequestScope(AttributeConst.EMPLOYEE, ev);
                 putRequestScope(AttributeConst.ERR, errors);
-
-                forward(ForwardConst.CMD_EDIT);
+                forward(ForwardConst.FW_EMP_EDIT);
             } else {
                 putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
                 redirect(ForwardConst.ACT_EMP, ForwardConst.CMD_INDEX);
