@@ -37,9 +37,10 @@ public class ReportService extends ServiceBase {
      * @return 日報データの件数
      */
     public long countAllMine(EmployeeView employee) {
+
         long count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT_ALL_MINE, Long.class)
-                        .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(employee))
-                        .getSingleResult();
+                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, EmployeeConverter.toModel(employee))
+                .getSingleResult();
 
         return count;
     }
