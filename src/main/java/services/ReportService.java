@@ -98,7 +98,7 @@ public class ReportService extends ServiceBase {
      * @param rv 日報の更新内容
      * @return バリデーションで発生したエラーのリスト
      */
-    public List<String> udpate(ReportView rv){
+    public List<String> update(ReportView rv){
         List<String> errors = ReportValidator.validate(rv);
 
         if (errors.size() == 0) {
