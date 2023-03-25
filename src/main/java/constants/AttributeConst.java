@@ -52,7 +52,8 @@ public enum AttributeConst {
 
     //フォロワー管理
     FOLLOWERS("followers"),
-    FOL_COUNT("followers_count");
+    FOL_COUNT("followers_count"),
+    FOL_IS_FOLLOW("isFollow");
 
 
 

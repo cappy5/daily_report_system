@@ -27,8 +27,11 @@ import lombok.Setter;
                 name = JpaConst.Q_FOL_COUNT_FOLLOWER,
                 query = JpaConst.Q_FOL_COUNT_FOLLOWER_DEF),
         @NamedQuery(
-                name = JpaConst.Q_FOL_GET_ALL_FOLLOWER,
-                query = JpaConst.Q_FOL_GET_ALL_FOLLOWER_DEF)
+                name = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID,
+                query = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID_DEF)
+        //,@NamedQuery(
+        //        name = JpaConst.Q_FOL_GET_ALL_FOLLOWER,
+        //        query = JpaConst.Q_FOL_GET_ALL_FOLLOWER_DEF)
         })
 @Getter
 @Setter
@@ -46,16 +49,16 @@ public class Follow {
     private Integer id;
 
     /**
-     * フォローした従業員の社員番号
+     * フォローした従業員のid
      */
     @Column(name = JpaConst.FOL_COL_EMP, nullable = false)
-    private Integer employeeCode;
+    private Integer employeeId;
 
     /**
-     * フォローされた従業員の社員番号
+     * フォローされた従業員のid
      */
     @Column(name = JpaConst.FOL_COL_FOL_EMP, nullable = false)
-    private Integer followedEmployeeCode;
+    private Integer followedEmployeeId;
 
     /**
      * 登録日時

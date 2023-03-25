@@ -12,6 +12,7 @@ import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import services.FollowService;
 import services.ReportService;
 
 /**
@@ -21,6 +22,7 @@ import services.ReportService;
 public class ReportAction extends ActionBase {
 
     private ReportService service;
+    private FollowService followService;
 
     /**
      * メソッドを実行する
@@ -29,10 +31,12 @@ public class ReportAction extends ActionBase {
     public void process() throws ServletException, IOException {
 
         service = new ReportService();
+        followService = new FollowService();
 
         invoke();
 
         service.close();
+        followService.close();
 
     }
 
@@ -130,10 +134,19 @@ public class ReportAction extends ActionBase {
 
         ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
 
+
         if (rv == null) {
             forward(ForwardConst.FW_ERR_UNKNOWN);
         } else {
+
+            //ログインユーザのidを取得
+            int empId = ((EmployeeView) (getSessionScope(AttributeConst.LOGIN_EMP))).getId();
+
+            //フォローしているか確認
+            boolean isFollow = followService.isFollow(empId, rv.getId());
+
             putRequestScope(AttributeConst.REPORT, rv);
+            putRequestScope(AttributeConst.FOL_IS_FOLLOW, isFollow);
             forward(ForwardConst.FW_REP_SHOW);
         }
     }

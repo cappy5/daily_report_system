@@ -27,6 +27,7 @@ public enum ForwardConst {
     CMD_EDIT("edit"),
     CMD_UPDATE("update"),
     CMD_DESTROY("destroy"),
+    CMD_TIMELINE("timeline"),
 
     //jsp
     FW_ERR_UNKNOWN("error/unknown"),
@@ -41,7 +42,7 @@ public enum ForwardConst {
     FW_REP_NEW("reports/new"),
     FW_REP_EDIT("reports/edit"),
     FW_FOL_INDEX("follows/index"),
-    FW_REP_SHOWTIMELINE("reports/showTimeline");
+    FW_REP_TIMELINE("reports/showTimeline");
 
     /**
      * 文字列
