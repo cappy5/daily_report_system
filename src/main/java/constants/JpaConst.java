@@ -58,9 +58,8 @@ public interface JpaConst {
     String JPQL_PARM_CODE = "code"; //社員番号
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
-    //String JPQL_PARM_ID = "employeeId";     //フォローしている従業員id(int)
-    //String JPQL_PARM_FOLLOWED_ID = "followedEmployeeId"; //フォローされている従業員id(int)
     String JPQL_PARM_FOLLOWED_EMPLOYEE = "followedEmployee"; //フォローされている従業員（オブジェクト）
+    String JPQL_PARM_REPORT_ID = "reportId"; //レポートid
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -102,6 +101,8 @@ public interface JpaConst {
     //ログイン従業員のフォロー対象従業員の日報データを取得する
     String Q_REP_GET_ALL_FOLOWEE_REPORT = ENTITY_REP + ".getAllFolloweeReport";
     String Q_REP_GET_ALL_FOLOWEE_REPORT_DEF = "SELECT r FROM Report AS r, Follow AS f WHERE r.employee = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE;
-
+    //指定した日報IDを条件に作成した従業員データを取得
+    String Q_EMP_GET_EMP_BY_REP_ID = ENTITY_REP + ".getEmpByRepId";
+    String Q_EMP_GET_EMP_BY_REP_ID_DEF = "SELECT e FROM Employee AS e, Report AS r WHERE e.id = r.employee AND r.id = :" + JPQL_PARM_REPORT_ID;
 
 }

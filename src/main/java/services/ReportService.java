@@ -104,6 +104,18 @@ public class ReportService extends ServiceBase {
     }
 
     /**
+     * リポートidを条件に取得した従業員データをEmployeeのインスタンスで返却する
+     * @param report id
+     * @return 取得データのインスタンス
+     */
+    public Employee getEmp(int reportId) {
+        Employee emp = em.createNamedQuery(JpaConst.Q_EMP_GET_EMP_BY_REP_ID, Employee.class)
+                        .setParameter(JpaConst.JPQL_PARM_REPORT_ID, reportId)
+                        .getSingleResult();
+        return emp;
+    }
+
+    /**
      * 画面から入力された日報の登録内容を元にデータを1件作成し、日報テーブルに登録する
      * @param rv 日報の登録内容
      * @return バリデーションで発生したエラーのリスト
@@ -168,36 +180,5 @@ public class ReportService extends ServiceBase {
         em.getTransaction().commit();
     }
 
-    /**
-     * フォローしている従業員の日報データを取得し、返却する
-     * @return 日報データ
-     */
-    /*
-    public Report getFolloweeReport() {
-
-        //フォローしている従業員の日報件数を取得
-        Report followeeReport = em.createNamedQuery(JpaConst.Q_REP_FOLOWEE_REPORT, Report.class)
-                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, el)
-                                .getSingleResult();
-        return followeeReport;
-    }
-    */
-
-    /**
-     * フォローしている従業員の日報テーブルデータの件数を取得し、返却する
-     * @return データの件数
-     */
-    /*
-    public long countAllFollowee() {
-
-
-
-        //フォローしている従業員の日報件数を取得
-        long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT_FOLOWEE, Long.class)
-                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, el)
-                                .getSingleResult();
-        return reports_count;
-    }
-    */
 
 }
