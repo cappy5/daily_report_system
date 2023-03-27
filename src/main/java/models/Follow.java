@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import constants.JpaConst;
@@ -22,18 +24,17 @@ import lombok.Setter;
  *
  */
 @Table(name=JpaConst.TABLE_FOL)
-/*@NamedQueries({
+@NamedQueries({
         @NamedQuery(
-                name = JpaConst.Q_FOL_COUNT_FOLLOWER,
-                query = JpaConst.Q_FOL_COUNT_FOLLOWER_DEF),
-//        @NamedQuery(
-//                name = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID,
-//                query = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID_DEF),
-//        @NamedQuery(
-//                name = JpaConst.Q_FOL_GET_BY_ID,
-//                query = JpaConst.Q_FOL_GET_BY_ID_DEF)
+                name = JpaConst.Q_FOL_COUNT_FOLLOWEE_BY_EMP,
+                query = JpaConst.Q_FOL_COUNT_FOLLOWEE_BY_EMP_DEF),
+        @NamedQuery(
+                name = JpaConst.Q_FOL_COUNT_FOLLOWEE,
+                query = JpaConst.Q_FOL_COUNT_FOLLOWEE_DEF),
+        @NamedQuery(
+                name = JpaConst.Q_FOL_MY_FOLOWEE,
+                query = JpaConst.Q_FOL_MY_FOLOWEE_DEF)
         })
-        */
 @Getter
 @Setter
 @NoArgsConstructor

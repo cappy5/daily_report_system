@@ -44,8 +44,8 @@ public class FollowAction extends ActionBase {
      */
     public void create() throws ServletException, IOException {
 
-        //ログイン従業員のデータを取得（Object型からEmployee型にダウンキャスト）
-        Employee loginEmp = (Employee) (getSessionScope(AttributeConst.LOGIN_EMP));
+        //ログイン従業員のデータを取得（EmployeeView型からEmployee型にキャスト）
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
 
         //フォロー対象従業員のデータを取得（EmployeeView型からEmployee型にキャスト）
         Employee followedEmp = EmployeeConverter.toModel(empService.findOne(toNumber(getRequestParam(AttributeConst.EMP_ID))));
@@ -78,8 +78,8 @@ public class FollowAction extends ActionBase {
      */
     public void destroy() throws ServletException, IOException {
 
-        //ログイン従業員のデータを取得（Object型からEmployee型にダウンキャスト）
-        Employee loginEmp = (Employee) (getSessionScope(AttributeConst.LOGIN_EMP));
+        //ログイン従業員のデータを取得（EmployeeView型からEmployee型にキャスト）
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
 
         //フォロー対象従業員のデータを取得（EmployeeView型からEmployee型にキャスト）
         Employee followedEmp = EmployeeConverter.toModel(empService.findOne(toNumber(getRequestParam(AttributeConst.EMP_ID))));

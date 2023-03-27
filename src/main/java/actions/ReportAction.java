@@ -145,7 +145,7 @@ public class ReportAction extends ActionBase {
         } else {
 
             //ログイン従業員を取得
-            Employee loginEmp = (Employee) (getSessionScope(AttributeConst.LOGIN_EMP));
+            Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
 
             //日報作成従業員を取得
             Employee targetEmp = EmployeeConverter.toModel(empService.findOne(toNumber(getRequestParam(AttributeConst.EMP_ID))));

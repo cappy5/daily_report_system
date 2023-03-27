@@ -21,8 +21,10 @@ public class FollowService extends ServiceBase {
      */
     public boolean isFollow(Employee employee, Employee followedEmp) {
 
+        System.out.println(employee.getCode());
+        System.out.println(followedEmp.getCode());
         boolean isFollowResult = false;
-        long count = em.createNamedQuery(JpaConst.Q_FOL_MY_COUNT_FOLLOWEE, Long.class)
+        long count = em.createNamedQuery(JpaConst.Q_FOL_COUNT_FOLLOWEE_BY_EMP, Long.class)
                             .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, employee)
                             .setParameter(JpaConst.JPQL_PARM_FOLLOWED_EMPLOYEE, followedEmp)
                             .getSingleResult();
