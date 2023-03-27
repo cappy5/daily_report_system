@@ -142,4 +142,36 @@ public class ReportService extends ServiceBase {
         em.getTransaction().commit();
     }
 
+    /**
+     * フォローしている従業員の日報データを取得し、返却する
+     * @return 日報データ
+     */
+    /*
+    public Report getFolloweeReport() {
+
+        //フォローしている従業員の日報件数を取得
+        Report followeeReport = em.createNamedQuery(JpaConst.Q_REP_FOLOWEE_REPORT, Report.class)
+                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, el)
+                                .getSingleResult();
+        return followeeReport;
+    }
+    */
+
+    /**
+     * フォローしている従業員の日報テーブルデータの件数を取得し、返却する
+     * @return データの件数
+     */
+    /*
+    public long countAllFollowee() {
+
+
+
+        //フォローしている従業員の日報件数を取得
+        long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT_FOLOWEE, Long.class)
+                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, el)
+                                .getSingleResult();
+        return reports_count;
+    }
+    */
+
 }

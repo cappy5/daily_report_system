@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 
+import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import actions.views.ReportView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
+import models.Employee;
+import services.EmployeeService;
 import services.FollowService;
 import services.ReportService;
 
@@ -23,6 +26,7 @@ public class ReportAction extends ActionBase {
 
     private ReportService service;
     private FollowService followService;
+    private EmployeeService empService;
 
     /**
      * メソッドを実行する
@@ -32,11 +36,13 @@ public class ReportAction extends ActionBase {
 
         service = new ReportService();
         followService = new FollowService();
+        empService = new EmployeeService();
 
         invoke();
 
         service.close();
         followService.close();
+        empService.close();
 
     }
 
@@ -134,16 +140,18 @@ public class ReportAction extends ActionBase {
 
         ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
 
-
         if (rv == null) {
             forward(ForwardConst.FW_ERR_UNKNOWN);
         } else {
 
-            //ログインユーザのidを取得
-            int empId = ((EmployeeView) (getSessionScope(AttributeConst.LOGIN_EMP))).getId();
+            //ログイン従業員を取得
+            Employee loginEmp = (Employee) (getSessionScope(AttributeConst.LOGIN_EMP));
+
+            //日報作成従業員を取得
+            Employee targetEmp = EmployeeConverter.toModel(empService.findOne(toNumber(getRequestParam(AttributeConst.EMP_ID))));
 
             //フォローしているか確認
-            boolean isFollow = followService.isFollow(empId, rv.getId());
+            boolean isFollow = followService.isFollow(loginEmp, targetEmp);
 
             putRequestScope(AttributeConst.REPORT, rv);
             putRequestScope(AttributeConst.FOL_IS_FOLLOW, isFollow);
@@ -200,5 +208,33 @@ public class ReportAction extends ActionBase {
             }
         }
     }
+
+    /**
+     * タイムラインを表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void timeline() throws ServletException, IOException {
+
+        int page = getPage();
+        List<ReportView> reports = service.getAllPerPage(page);
+
+        long reportsCount = service.countAll();
+
+        putRequestScope(AttributeConst.REPORTS, reports);
+        putRequestScope(AttributeConst.REP_COUNT, reportsCount);
+        putRequestScope(AttributeConst.PAGE, page);
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
+
+        String flush = getSessionScope(AttributeConst.FLUSH);
+        if (flush != null) {
+            putRequestScope(AttributeConst.FLUSH, flush);
+            removeSessionScope(AttributeConst.FLUSH);
+        }
+
+        forward(ForwardConst.FW_REP_TIMELINE);
+
+    }
+
 
 }

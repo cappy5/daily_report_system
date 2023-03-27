@@ -5,6 +5,7 @@ import java.util.List;
 
 import constants.JpaConst;
 import constants.MessageConst;
+import models.Employee;
 import models.Follow;
 
 /**
@@ -13,17 +14,17 @@ import models.Follow;
 public class FollowService extends ServiceBase {
 
     /**
-     * ログイン従業員のid、フォローされている可能性のある従業員のidを条件に検索し、結果を返却する
-     * @param ログイン従業員のid
-     * @param ログイン従業員がフォローしている可能性のある従業員のid
+     * ログイン従業員、フォローされている可能性のある従業員を条件に検索し、結果を返却する
+     * @param ログイン従業員
+     * @param ログイン従業員がフォローしている可能性のある従業員
      * @return 結果を返却する(true : すでにフォローしている false : フォローしていない)
      */
-    public boolean isFollow(int EmpId, int followedEmpId) {
+    public boolean isFollow(Employee employee, Employee followedEmp) {
 
         boolean isFollowResult = false;
-        long count = em.createNamedQuery(JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID, Long.class)
-                            .setParameter(JpaConst.JPQL_PARM_ID, EmpId)
-                            .setParameter(JpaConst.JPQL_PARM_FOLLOWED_ID, followedEmpId)
+        long count = em.createNamedQuery(JpaConst.Q_FOL_MY_COUNT_FOLLOWEE, Long.class)
+                            .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, employee)
+                            .setParameter(JpaConst.JPQL_PARM_FOLLOWED_EMPLOYEE, followedEmp)
                             .getSingleResult();
         if (count >= 1) {
             isFollowResult = true;
@@ -33,19 +34,15 @@ public class FollowService extends ServiceBase {
 
     /**
     * 画面から選択された日報作成者をフォローし、フォローテーブルに登録する
-    * @param empId ログインユーザのid
-    * @param followedEmpId フォローしたい従業員id
+    * @param empId ログイン従業員
+    * @param followedEmpId フォローしたい従業員
     */
-   public List<String> create(Follow fol){
+   public List<String> create(Employee loginEmp, Employee followedEmp, Follow fol) {
 
        List<String> errors = new ArrayList<String>();
 
-       long count = em.createNamedQuery(JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID, Long.class)
-                       .setParameter(JpaConst.JPQL_PARM_ID, fol.getEmployeeId())
-                       .setParameter(JpaConst.JPQL_PARM_FOLLOWED_ID, fol.getFollowedEmployeeId())
-                       .getSingleResult();
-
-       if (count >= 1) {
+       //すでにフォローしていたらエラーにする
+       if (isFollow(loginEmp, followedEmp)) {
            errors.add(MessageConst.E_FOLLOW_EXIST.getMessage());
            return errors;
        }
@@ -70,27 +67,26 @@ public class FollowService extends ServiceBase {
     * @param id
     */
 
-   public void destroy(Integer empId, Integer followedEmpIp) {
+   public void destroy(Employee employee, Employee followedEmp) {
 
        //idを条件に登録済みの従業員情報を取得する
-       Follow delFol = findOne(empId, followedEmpIp);
+       Follow delFol = findOne(employee, followedEmp);
 
        //削除処理を行う
        destoryInternal(delFol);
-
    }
 
    /**
-    * ログイン従業員のid、フォローされている従業員のidを条件に検索する
-    * @param ログイン従業員のid
-    * @param ログイン従業員がフォローしている従業員のid
+    * ログイン従業員、フォローされている従業員を条件にフォロー情報を検索する
+    * @param ログイン従業員
+    * @param ログイン従業員がフォローしている従業員
     * @return Follow
     */
-   private Follow findOne(Integer empId, Integer followedEmpIp) {
+   private Follow findOne(Employee employee, Employee followedEmployee) {
 
-       Follow delFol = em.createNamedQuery(JpaConst.Q_FOL_GET_BY_ID, Follow.class)
-                           .setParameter(JpaConst.JPQL_PARM_ID, empId)
-                           .setParameter(JpaConst.JPQL_PARM_FOLLOWED_ID, followedEmpIp)
+       Follow delFol = em.createNamedQuery(JpaConst.Q_FOL_MY_FOLOWEE, Follow.class)
+                           .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, employee)
+                           .setParameter(JpaConst.JPQL_PARM_FOLLOWED_EMPLOYEE, followedEmployee)
                            .getSingleResult();
        return delFol;
 }
@@ -106,4 +102,5 @@ public class FollowService extends ServiceBase {
       em.getTransaction().commit();
 
    }
+
 }

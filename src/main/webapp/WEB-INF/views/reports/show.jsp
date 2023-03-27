@@ -55,8 +55,7 @@
                 </form>
             </c:if>
             <c:if test="${isFollow == true}">
-                <p><a href="<c:url value='?action=${actFol}&command=${commDest}&id=${report.employee.id}' />">この従業員をアンフォローする</a></p>
-                <form method="POST" action="<c:url value='?action=${actFol}&command=${commDest}&id=${report.id}' />">
+                <form method="POST" action="<c:url value='?action=${actFol}&command=${commDest}&id=${report.employee.id}' />">
                 <br />
                 <input type="submit" value="この作成者をアンフォローする">
                 </form>

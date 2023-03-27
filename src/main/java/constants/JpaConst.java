@@ -58,8 +58,9 @@ public interface JpaConst {
     String JPQL_PARM_CODE = "code"; //社員番号
     String JPQL_PARM_PASSWORD = "password"; //パスワード
     String JPQL_PARM_EMPLOYEE = "employee"; //従業員
-    String JPQL_PARM_ID = "employeeId";     //フォローしている従業員
-    String JPQL_PARM_FOLLOWED_ID = "followedEmployeeId"; //フォローされている従業員
+    //String JPQL_PARM_ID = "employeeId";     //フォローしている従業員id(int)
+    //String JPQL_PARM_FOLLOWED_ID = "followedEmployeeId"; //フォローされている従業員id(int)
+    String JPQL_PARM_FOLLOWED_EMPLOYEE = "followedEmployee"; //フォローされている従業員（オブジェクト）
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -87,16 +88,20 @@ public interface JpaConst {
     String Q_REP_COUNT_ALL_MINE = ENTITY_REP + ".countAllMine";
     String Q_REP_COUNT_ALL_MINE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE;
     //フォロワーの件数を取得する
-    String Q_FOL_COUNT_FOLLOWER = ENTITY_FOL + ".countFollower";
-    String Q_FOL_COUNT_FOLLOWER_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.id = :" + JPQL_PARM_CODE;
-    //フォロワーの日報を取得する (エラーになるので一旦コメントアウト)
-    //String Q_FOL_GET_ALL_FOLLOWER = ENTITY_REP + ".getAllFollower";
-    //String Q_FOL_GET_ALL_FOLLOWER_DEF = "SELECT r FROM Report AS r WHERE r.employee = :" + JPQL_PARM_EMPLOYEE + " ORDER BY r.report_date DESC";
-    //フォローしている従業員、フォローされている従業員を条件に件数を取得する
-    String Q_FOL_COUNT_FOLLOWER_BY_ID = ENTITY_FOL + ".getCountById";
-    String Q_FOL_COUNT_FOLLOWER_BY_ID_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.employeeId = :" + JPQL_PARM_ID + " AND f.followedEmployeeId = :" + JPQL_PARM_FOLLOWED_ID;
-    //フォローしている従業員、フォローされている従業員を条件に値を取得する
-    String Q_FOL_GET_BY_ID = ENTITY_FOL + ".getById";
-    String Q_FOL_GET_BY_ID_DEF = "SELECT f FROM Follow AS f WHERE f.employeeId = :" + JPQL_PARM_ID + " AND f.followedEmployeeId = :" + JPQL_PARM_FOLLOWED_ID;
+    String Q_FOL_COUNT_FOLLOWEE = ENTITY_FOL + ".countFollower";
+    String Q_FOL_COUNT_FOLLOWEE_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.id = :" + JPQL_PARM_EMPLOYEE;
+    //ログイン従業員、フォロー対象従業員を条件に件数を取得する
+    String Q_FOL_MY_COUNT_FOLLOWEE = ENTITY_FOL + ".getCountById";
+    String Q_FOL_MY_COUNT_FOLLOWEE_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.employee = :" + JPQL_PARM_EMPLOYEE + " AND f.followedEmployee = :" + JPQL_PARM_FOLLOWED_EMPLOYEE;
+    //ログイン従業員、フォロー対象従業員を条件にフォロー情報を取得する
+    String Q_FOL_MY_FOLOWEE = ENTITY_FOL + ".getById";
+    String Q_FOL_MY_FOLOWEE_DEF = "SELECT f FROM Follow AS f WHERE f.employee = :" + JPQL_PARM_EMPLOYEE + " AND f.followedEmployee = :" + JPQL_PARM_FOLLOWED_EMPLOYEE;
+    //ログイン従業員のフォロー対象従業員の日報件数を取得する
+    String Q_REP_COUNT_FOLOWEE = ENTITY_FOL + ".getAllFolowee";
+    String Q_REP_COUNT_FOLOWEE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee in :" + JPQL_PARM_EMPLOYEE;
+    //ログイン従業員のフォロー対象従業員の日報データを取得する
+    String Q_REP_FOLOWEE_REPORT = ENTITY_REP + ".getFolloweeReport";
+    String Q_REP_FOLOWEE_REPORT_DEF = "SELECT r FROM Report AS r, Follow AS f WHERE r.employee = :" + JPQL_PARM_FOLLOWED_EMPLOYEE + " AND f.employee = :" + JPQL_PARM_EMPLOYEE;
+
 
 }

@@ -15,7 +15,7 @@
             <c:out value="${flush}" />
         </div>
     </c:if>
-    <h2>タイムライン</h2>
+    <h2>フォローしている従業員の日報　一覧</h2>
     <table id="talble_list">
         <tbody>
             <tr>
@@ -50,6 +50,6 @@
             </c:choose>
         </c:forEach>
     </div>
-    <p><a href="<c:url value='?action=${actRep}&command=${commNew}' />">新規日報の登録</a></p>
+    <p><a href="<c:url value='?action=${actRep}&command=${commIdx}' />">日報一覧に戻る</a></p>
     </c:param>
 </c:import>

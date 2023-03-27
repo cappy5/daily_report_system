@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import constants.JpaConst;
@@ -22,20 +22,18 @@ import lombok.Setter;
  *
  */
 @Table(name=JpaConst.TABLE_FOL)
-@NamedQueries({
+/*@NamedQueries({
         @NamedQuery(
                 name = JpaConst.Q_FOL_COUNT_FOLLOWER,
                 query = JpaConst.Q_FOL_COUNT_FOLLOWER_DEF),
-        @NamedQuery(
-                name = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID,
-                query = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID_DEF),
-        @NamedQuery(
-                name = JpaConst.Q_FOL_GET_BY_ID,
-                query = JpaConst.Q_FOL_GET_BY_ID_DEF)
-        //,@NamedQuery(
-        //        name = JpaConst.Q_FOL_GET_ALL_FOLLOWER,
-        //        query = JpaConst.Q_FOL_GET_ALL_FOLLOWER_DEF)
+//        @NamedQuery(
+//                name = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID,
+//                query = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID_DEF),
+//        @NamedQuery(
+//                name = JpaConst.Q_FOL_GET_BY_ID,
+//                query = JpaConst.Q_FOL_GET_BY_ID_DEF)
         })
+        */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -52,16 +50,18 @@ public class Follow {
     private Integer id;
 
     /**
-     * フォローした従業員のid
+     * フォローした従業員
      */
-    @Column(name = JpaConst.FOL_COL_EMP, nullable = false)
-    private Integer employeeId;
+    @ManyToOne
+    @JoinColumn(name = JpaConst.FOL_COL_EMP, nullable = false)
+    private Employee employee;
 
     /**
-     * フォローされた従業員のid
+     * フォローされた従業員
      */
-    @Column(name = JpaConst.FOL_COL_FOL_EMP, nullable = false)
-    private Integer followedEmployeeId;
+    @ManyToOne
+    @JoinColumn(name = JpaConst.FOL_COL_FOL_EMP, nullable = false)
+    private Employee followedEmployee;
 
     /**
      * 登録日時
