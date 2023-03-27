@@ -8,6 +8,7 @@ import actions.views.EmployeeView;
 import actions.views.ReportConverter;
 import actions.views.ReportView;
 import constants.JpaConst;
+import models.Employee;
 import models.Report;
 import models.validators.ReportValidator;
 
@@ -59,11 +60,36 @@ public class ReportService extends ServiceBase {
     }
 
     /**
+     * 指定されたページ数のタイムライン画面に表示する日報データを取得し、ReportViewのリストで返却する
+     * @param page ページ数
+     * @return タイムライン画面に表示するデータのリスト
+     */
+    public List<ReportView> getAllTimelinePerPage(Employee loginEmp, int page){
+        List<Report> reports = em.createNamedQuery(JpaConst.Q_REP_GET_ALL_FOLOWEE_REPORT, Report.class)
+                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
+                                .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+                                .setMaxResults(JpaConst.ROW_PER_PAGE)
+                                .getResultList();
+        return ReportConverter.toViewList(reports);
+    }
+
+    /**
      * 日報テーブルのデータの件数を取得し、返却する
      * @return データの件数
      */
     public long countAll() {
         long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT, Long.class)
+                                .getSingleResult();
+        return reports_count;
+    }
+
+    /**
+     * タイムライン用の日報テーブルのデータの件数を取得し、返却する
+     * @return データの件数
+     */
+    public long countAllTimeline(Employee loginEmp) {
+        long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT_FOLOWEE_REPORT, Long.class)
+                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
                                 .getSingleResult();
         return reports_count;
     }

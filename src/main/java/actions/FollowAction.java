@@ -62,7 +62,7 @@ public class FollowAction extends ActionBase {
 
         if (errors.size() > 0) {
             putSessionScope(AttributeConst.ERR, errors);
-            forward(ForwardConst.FW_REP_INDEX);
+            redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
 
         } else {
             putSessionScope(AttributeConst.FLUSH, MessageConst.I_FOLLOWED.getMessage());

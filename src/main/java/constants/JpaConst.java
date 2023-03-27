@@ -97,11 +97,11 @@ public interface JpaConst {
     String Q_FOL_MY_FOLOWEE = ENTITY_FOL + ".getById";
     String Q_FOL_MY_FOLOWEE_DEF = "SELECT f FROM Follow AS f WHERE f.employee = :" + JPQL_PARM_EMPLOYEE + " AND f.followedEmployee = :" + JPQL_PARM_FOLLOWED_EMPLOYEE;
     //ログイン従業員のフォロー対象従業員の日報件数を取得する
-    String Q_REP_COUNT_FOLOWEE = ENTITY_FOL + ".getAllFolowee";
-    String Q_REP_COUNT_FOLOWEE_DEF = "SELECT COUNT(r) FROM Report AS r WHERE r.employee in :" + JPQL_PARM_EMPLOYEE;
+    String Q_REP_COUNT_FOLOWEE_REPORT = ENTITY_FOL + ".countFoloweeReport";
+    String Q_REP_COUNT_FOLOWEE_REPORT_DEF = "SELECT COUNT(r) FROM Report AS r, Follow AS f WHERE r.employee = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE;
     //ログイン従業員のフォロー対象従業員の日報データを取得する
-    String Q_REP_FOLOWEE_REPORT = ENTITY_REP + ".getFolloweeReport";
-    String Q_REP_FOLOWEE_REPORT_DEF = "SELECT r FROM Report AS r, Follow AS f WHERE r.employee = :" + JPQL_PARM_FOLLOWED_EMPLOYEE + " AND f.employee = :" + JPQL_PARM_EMPLOYEE;
+    String Q_REP_GET_ALL_FOLOWEE_REPORT = ENTITY_REP + ".getAllFolloweeReport";
+    String Q_REP_GET_ALL_FOLOWEE_REPORT_DEF = "SELECT r FROM Report AS r, Follow AS f WHERE r.employee = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE;
 
 
 }

@@ -217,9 +217,9 @@ public class ReportAction extends ActionBase {
     public void timeline() throws ServletException, IOException {
 
         int page = getPage();
-        List<ReportView> reports = service.getAllPerPage(page);
-
-        long reportsCount = service.countAll();
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
+        List<ReportView> reports = service.getAllTimelinePerPage(loginEmp, page);
+        long reportsCount = service.countAllTimeline(loginEmp);
 
         putRequestScope(AttributeConst.REPORTS, reports);
         putRequestScope(AttributeConst.REP_COUNT, reportsCount);
