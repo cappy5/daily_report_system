@@ -35,36 +35,38 @@ public class FollowAction extends ActionBase {
     }
 
     /**
-     * 新規登録を行う（まだ作成中だよ！）
+     * フォローする
      * @throws ServletException
      * @throws IOException
      */
     public void create() throws ServletException, IOException {
 
-        System.out.println("ここできてる？");
-        //System.out.println(checkToken());
-        //if (checkToken()) {
+        //ログインユーザのidを取得
+        int empId = ((EmployeeView) (getSessionScope(AttributeConst.LOGIN_EMP))).getId();
 
-            //ログインユーザのidを取得
-            int empId = ((EmployeeView) (getSessionScope(AttributeConst.LOGIN_EMP))).getId();
+        //フォロー対象従業員のidを取得
+        ReportView rv = repService.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+        int followedEmpId = rv.getId();
 
-            //フォロー対象従業員のidを取得
-            ReportView rv = repService.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
-            int followedEmpId = rv.getId();
+        //Followモデルにデータをセット
+        Follow fol = new Follow();
+        LocalDateTime ldt = LocalDateTime.now();
+        fol.setEmployeeId(empId);
+        fol.setFollowedEmployeeId(followedEmpId);
+        fol.setCreatedAt(ldt);
+        fol.setUpdatedAt(ldt);
 
-            //Followモデルにデータをセット
-            Follow fol = new Follow();
-            LocalDateTime ldt = LocalDateTime.now();
-            fol.setEmployeeId(empId);
-            fol.setFollowedEmployeeId(followedEmpId);
-            fol.setCreatedAt(ldt);
-            fol.setUpdatedAt(ldt);
+        List<String> errors = folService.create(fol);
 
-            folService.create(fol);
+        if (errors.size() > 0) {
+            putSessionScope(AttributeConst.ERR, errors);
+            forward(ForwardConst.FW_REP_INDEX);
 
+        } else {
             putSessionScope(AttributeConst.FLUSH, MessageConst.I_FOLLOWED.getMessage());
             redirect(ForwardConst.ACT_FOL, ForwardConst.CMD_TIMELINE);
-        //}
+
+        }
     }
 
     /**
@@ -93,5 +95,22 @@ public class FollowAction extends ActionBase {
         forward(ForwardConst.FW_REP_TIMELINE);
 
     }
+
+    /**
+     * アンフォローする
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void destroy() throws ServletException, IOException {
+
+        //ログインユーザのidを取得
+        int empId = ((EmployeeView) (getSessionScope(AttributeConst.LOGIN_EMP))).getId();
+
+        folService.destroy(empId, toNumber(getRequestParam(AttributeConst.EMP_ID)));
+
+        putSessionScope(AttributeConst.FLUSH, MessageConst.I_UNFOLLOWED.getMessage());
+        redirect(ForwardConst.ACT_FOL, ForwardConst.CMD_TIMELINE);
+    }
+
 
 }

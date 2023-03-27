@@ -45,13 +45,21 @@
             <p>
                 <a href="<c:url value='?action=${actRep}&command=${commEdt}&id=${report.id}' />">この日報を編集する</a>
             </p>
+
         </c:when>
         <c:otherwise>
             <c:if test="${isFollow == false}">
-               <p><a href="<c:url value='?action=${actFol}&command=${commCrt}&id=${report.employee.id}' />">この従業員をフォローする</a></p>
+                <form method="POST" action="<c:url value='?action=${actFol}&command=${commCrt}&id=${report.employee.id}' />">
+                <br />
+                <input type="submit" value="この作成者をフォローする">
+                </form>
             </c:if>
             <c:if test="${isFollow == true}">
                 <p><a href="<c:url value='?action=${actFol}&command=${commDest}&id=${report.employee.id}' />">この従業員をアンフォローする</a></p>
+                <form method="POST" action="<c:url value='?action=${actFol}&command=${commDest}&id=${report.id}' />">
+                <br />
+                <input type="submit" value="この作成者をアンフォローする">
+                </form>
             </c:if>
         </c:otherwise>
         </c:choose>

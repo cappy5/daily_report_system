@@ -28,7 +28,10 @@ import lombok.Setter;
                 query = JpaConst.Q_FOL_COUNT_FOLLOWER_DEF),
         @NamedQuery(
                 name = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID,
-                query = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID_DEF)
+                query = JpaConst.Q_FOL_COUNT_FOLLOWER_BY_ID_DEF),
+        @NamedQuery(
+                name = JpaConst.Q_FOL_GET_BY_ID,
+                query = JpaConst.Q_FOL_GET_BY_ID_DEF)
         //,@NamedQuery(
         //        name = JpaConst.Q_FOL_GET_ALL_FOLLOWER,
         //        query = JpaConst.Q_FOL_GET_ALL_FOLLOWER_DEF)

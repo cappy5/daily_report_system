@@ -95,5 +95,8 @@ public interface JpaConst {
     //フォローしている従業員、フォローされている従業員を条件に件数を取得する
     String Q_FOL_COUNT_FOLLOWER_BY_ID = ENTITY_FOL + ".getCountById";
     String Q_FOL_COUNT_FOLLOWER_BY_ID_DEF = "SELECT COUNT(f) FROM Follow AS f WHERE f.employeeId = :" + JPQL_PARM_ID + " AND f.followedEmployeeId = :" + JPQL_PARM_FOLLOWED_ID;
+    //フォローしている従業員、フォローされている従業員を条件に値を取得する
+    String Q_FOL_GET_BY_ID = ENTITY_FOL + ".getById";
+    String Q_FOL_GET_BY_ID_DEF = "SELECT f FROM Follow AS f WHERE f.employeeId = :" + JPQL_PARM_ID + " AND f.followedEmployeeId = :" + JPQL_PARM_FOLLOWED_ID;
 
 }
