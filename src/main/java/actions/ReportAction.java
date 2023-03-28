@@ -148,7 +148,7 @@ public class ReportAction extends ActionBase {
             Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
 
             //日報作成者を取得
-            Employee targetEmp = service.getEmp(toNumber(getRequestParam(AttributeConst.REP_ID)));
+            Employee targetEmp = empService.getEmp(toNumber(getRequestParam(AttributeConst.REP_ID)));
 
             //フォローしているか確認
             boolean isFollow = followService.isFollow(loginEmp, targetEmp);

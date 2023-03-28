@@ -219,6 +219,30 @@ public class EmployeeService extends ServiceBase {
     }
 
     /**
+     * リポートidを条件に取得した従業員データをEmployeeのインスタンスで返却する
+     * @param report id
+     * @return 取得データのインスタンス
+     */
+    public Employee getEmp(int reportId) {
+        Employee emp = em.createNamedQuery(JpaConst.Q_EMP_GET_EMP_BY_REP_ID, Employee.class)
+                        .setParameter(JpaConst.JPQL_PARM_REPORT_ID, reportId)
+                        .getSingleResult();
+        return emp;
+    }
+
+    /**
+     * ログイン従業員を条件にフォローしている従業員データをEmployeeのインスタンスで返却する
+     * @param employee
+     * @return 取得データのインスタンス
+     */
+    public List<Employee> getEmpByLoginId(Employee loginEmp) {
+        List<Employee> followedEmp = em.createNamedQuery(JpaConst.Q_EMP_GET_EMP_BY_LOGIN_ID, Employee.class)
+                        .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
+                        .getResultList();
+        return followedEmp;
+    }
+
+    /**
      * idを条件にデータを1件取得し、Employeeのインスタンスで返却する
      * @param id
      * @return 取得データのインスタンス

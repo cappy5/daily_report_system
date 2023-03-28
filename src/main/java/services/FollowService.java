@@ -65,7 +65,7 @@ public class FollowService extends ServiceBase {
    }
 
    /**
-    * ログインユーザ、フォローしている従業員idを条件にフォローデータを物理削除する
+    * ログインしている従業員、フォローされている従業員を条件にフォローデータを物理削除する
     * @param id
     */
 
@@ -79,18 +79,18 @@ public class FollowService extends ServiceBase {
    }
 
    /**
-    * ログイン従業員、フォローされている従業員を条件にフォロー情報を検索する
+    * ログインしている従業員、フォローされている従業員を条件にフォローデータを取得する
     * @param ログイン従業員
     * @param ログイン従業員がフォローしている従業員
     * @return Follow
     */
    private Follow findOne(Employee employee, Employee followedEmployee) {
 
-       Follow delFol = em.createNamedQuery(JpaConst.Q_FOL_MY_FOLOWEE, Follow.class)
+       Follow targetFol = em.createNamedQuery(JpaConst.Q_FOL_MY_FOLOWEE, Follow.class)
                            .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, employee)
                            .setParameter(JpaConst.JPQL_PARM_FOLLOWED_EMPLOYEE, followedEmployee)
                            .getSingleResult();
-       return delFol;
+       return targetFol;
 }
 
 /**

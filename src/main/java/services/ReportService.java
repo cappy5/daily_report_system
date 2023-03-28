@@ -104,18 +104,6 @@ public class ReportService extends ServiceBase {
     }
 
     /**
-     * リポートidを条件に取得した従業員データをEmployeeのインスタンスで返却する
-     * @param report id
-     * @return 取得データのインスタンス
-     */
-    public Employee getEmp(int reportId) {
-        Employee emp = em.createNamedQuery(JpaConst.Q_EMP_GET_EMP_BY_REP_ID, Employee.class)
-                        .setParameter(JpaConst.JPQL_PARM_REPORT_ID, reportId)
-                        .getSingleResult();
-        return emp;
-    }
-
-    /**
      * 画面から入力された日報の登録内容を元にデータを1件作成し、日報テーブルに登録する
      * @param rv 日報の登録内容
      * @return バリデーションで発生したエラーのリスト

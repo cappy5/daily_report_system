@@ -38,6 +38,28 @@ public class FollowAction extends ActionBase {
     }
 
     /**
+     * 一覧を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void index() throws ServletException, IOException {
+
+        //TODO
+        //フォロー中の従業員一覧取得
+        //フォロー中の従業員件数取得
+
+        Employee loginEmp = (Employee) getSessionScope(AttributeConst.EMPLOYEE);
+        List<Employee> followedEmp = empService.getEmpByLoginId(loginEmp);
+        for (Employee emp : followedEmp ) {
+            System.out.println(emp);
+        }
+        putRequestScope(AttributeConst.EMPLOYEES, followedEmp);
+        forward(ForwardConst.FW_FOL_INDEX);
+
+    }
+
+
+    /**
      * フォローする
      * @throws ServletException
      * @throws IOException
