@@ -3,10 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="constants.ForwardConst"%>
 
-<c:set var="actRep" value="${ForwardConst.ACT_REP.getValue()}" />
+<c:set var="actFol" value="${ForwardConst.ACT_FOL.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue()}" />
-<c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
-<c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
+<c:set var="commDest" value="${ForwardConst.CMD_DESTROY.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -28,25 +27,25 @@
                 <tr>
                     <td><c:out value="${employee.code}" /></td>
                     <td><c:out value="${employee.name}" /></td>
+                    <td><a href="<c:url value='?action=${actFol}&command=${commDest}&id=${employee.id}' />">アンフォローする</a></td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
-<!--
+
     <div id="pagenation">
-        （全 ${reports_count} 件）<br />
-        <c:forEach var="i" begin="1" end="${((reports_count - 1) / maxRow) + 1}" step="1">
+        （全 ${employees_count} 件）<br />
+        <c:forEach var="i" begin="1" end="${((employees_count - 1) / maxRow) + 1}" step="1">
             <c:choose>
                 <c:when test="${i == page}">
                     <c:out value="${i}" />&nbsp;
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='?action=${actRep}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                    <a href="<c:url value='?action=${actFol}&command=${commIdx}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
                 </c:otherwise>
             </c:choose>
         </c:forEach>
     </div>
-    <p><a href="<c:url value='?action=${actRep}&command=${commNew}' />">新規日報の登録</a></p>
--->
+
     </c:param>
 </c:import>

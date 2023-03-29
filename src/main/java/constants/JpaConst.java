@@ -106,7 +106,11 @@ public interface JpaConst {
     String Q_EMP_GET_EMP_BY_REP_ID_DEF = "SELECT e FROM Employee AS e, Report AS r WHERE e.id = r.employee AND r.id = :" + JPQL_PARM_REPORT_ID;
     //指定したログイン従業員IDを条件にフォローしている従業員データを取得
     String Q_EMP_GET_EMP_BY_LOGIN_ID = ENTITY_EMP + ".getEmpByLoginId";
-    String Q_EMP_GET_EMP_BY_LOGIN_ID_DEF = "SELECT e FROM Employee AS e, Follow AS f WHERE e.id = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE;
+    String Q_EMP_GET_EMP_BY_LOGIN_ID_DEF = "SELECT e FROM Employee AS e, Follow AS f WHERE e.id = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE + " ORDER BY e.id ASC";
+    //指定したログイン従業員IDを条件にフォローしている従業員件数を取得
+    String Q_EMP_COUNT_FOLLOWEE_BY_LOGIN_ID = ENTITY_EMP + ".countFolloweeByLoginId";
+    String Q_EMP_COUNT_FOLLOWEE_BY_LOGIN_ID_DEF = "SELECT COUNT(e) FROM Employee AS e, Follow AS f WHERE e.id = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE;
+
 
 
 }

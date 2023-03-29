@@ -7,8 +7,10 @@ import java.util.List;
 import javax.servlet.ServletException;
 
 import actions.views.EmployeeConverter;
+import actions.views.EmployeeView;
 import constants.AttributeConst;
 import constants.ForwardConst;
+import constants.JpaConst;
 import constants.MessageConst;
 import models.Employee;
 import models.Follow;
@@ -44,18 +46,22 @@ public class FollowAction extends ActionBase {
      */
     public void index() throws ServletException, IOException {
 
-        //TODO
-        //フォロー中の従業員一覧取得
+        int page = getPage();
+
+        //ログイン従業員を取得
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
+
         //フォロー中の従業員件数取得
+        long count = empService.getCountFolloweeByLoginId(loginEmp);
 
-        Employee loginEmp = (Employee) getSessionScope(AttributeConst.EMPLOYEE);
-        List<Employee> followedEmp = empService.getEmpByLoginId(loginEmp);
-        for (Employee emp : followedEmp ) {
-            System.out.println(emp);
-        }
+        //フォロー中の従業員一覧取得
+        List<EmployeeView> followedEmp = empService.getEmpByLoginIdPerPage(loginEmp, page);
+
+        putRequestScope(AttributeConst.PAGE, page);
+        putRequestScope(AttributeConst.EMP_COUNT, count);
         putRequestScope(AttributeConst.EMPLOYEES, followedEmp);
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
         forward(ForwardConst.FW_FOL_INDEX);
-
     }
 
 

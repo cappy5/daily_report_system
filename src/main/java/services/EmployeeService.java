@@ -243,6 +243,32 @@ public class EmployeeService extends ServiceBase {
     }
 
     /**
+     * ログイン従業員を条件にフォローしている従業員データを取得し、取得したページ分だけ返却する
+     * @param employee
+     * @return 取得データのインスタンス
+     */
+    public List<EmployeeView> getEmpByLoginIdPerPage(Employee loginEmp, int page) {
+        List<Employee> followedEmp = em.createNamedQuery(JpaConst.Q_EMP_GET_EMP_BY_LOGIN_ID, Employee.class)
+                        .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+                        .setMaxResults(JpaConst.ROW_PER_PAGE)
+                        .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
+                        .getResultList();
+        return EmployeeConverter.toViewList(followedEmp);
+    }
+
+    /**
+     * ログイン従業員を条件にフォローしている従業員件数を取得し、返却する
+     * @param employee
+     * @return フォローしている従業員件数
+     */
+    public long getCountFolloweeByLoginId(Employee loginEmp) {
+        long count = em.createNamedQuery(JpaConst.Q_EMP_COUNT_FOLLOWEE_BY_LOGIN_ID, Long.class)
+                        .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
+                        .getSingleResult();
+        return count;
+    }
+
+    /**
      * idを条件にデータを1件取得し、Employeeのインスタンスで返却する
      * @param id
      * @return 取得データのインスタンス
