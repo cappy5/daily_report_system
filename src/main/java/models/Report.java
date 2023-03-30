@@ -100,4 +100,12 @@ public class Report {
     private LocalDateTime updatedAt;
 
 
+    /**
+     * 承認状況
+     */
+    /*
+    @Column(name = JpaConst.REP_COL_APPROVE_STATUS, nullable = false)
+    private int approveStatus;
+    */
+
 }

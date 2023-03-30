@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import models.Position;
 
 /**
  * 従業員情報について画面の入力値・出力値を扱うViewモデル
@@ -57,4 +58,8 @@ public class EmployeeView {
      */
     private Integer deleteFlag;
 
+    /**
+     * 職位モデル
+     */
+    private Position position;
 }

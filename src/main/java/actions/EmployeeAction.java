@@ -11,7 +11,9 @@ import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
 import constants.PropertyConst;
+import models.Position;
 import services.EmployeeService;
+import services.PositionService;
 
 /**
  * 従業員に関わる処理を行うActionクラス
@@ -20,6 +22,7 @@ import services.EmployeeService;
 public class EmployeeAction extends ActionBase {
 
     private EmployeeService service;
+    private PositionService posService;
 
     /**
      * メソッドを実行する
@@ -28,10 +31,12 @@ public class EmployeeAction extends ActionBase {
     public void process() throws ServletException, IOException {
 
         service = new EmployeeService();
+        posService = new PositionService();
 
         invoke();
 
         service.close();
+        posService.close();
     }
 
     /**
@@ -87,6 +92,9 @@ public class EmployeeAction extends ActionBase {
       //CSRF対策 tokenのチェック
         if (checkAdmin() && checkToken()) {
 
+          //職位モデルを取得
+          Position pos = posService.findOne(toNumber(AttributeConst.EMPLOYEE.POSITION_CODE.getValue()));
+
           //パラメータの値を元に従業員情報のインスタンスを作成する
             EmployeeView ev = new EmployeeView(
                     null,
@@ -96,7 +104,9 @@ public class EmployeeAction extends ActionBase {
                     toNumber(getRequestParam(AttributeConst.EMP_ADMIN_FLG)),
                     null,
                     null,
-                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue(),
+                    pos
+                    );
 
             String pepper = getContextScope(PropertyConst.PEPPER);
 
@@ -151,6 +161,10 @@ public class EmployeeAction extends ActionBase {
     public void update() throws ServletException, IOException {
 
         if (checkAdmin() && checkToken()) {
+
+            //職位モデルを取得
+            Position pos = posService.findOne(toNumber(AttributeConst.EMPLOYEE.POSITION_CODE.getValue()));
+
             EmployeeView ev = new EmployeeView(
                     toNumber(getRequestParam(AttributeConst.EMP_ID)),
                     getRequestParam(AttributeConst.EMP_CODE),
@@ -159,7 +173,9 @@ public class EmployeeAction extends ActionBase {
                     toNumber(getRequestParam(AttributeConst.EMP_ADMIN_FLG)),
                     null,
                     null,
-                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue(),
+                    pos
+                    );
 
 
             String pepper = getContextScope(PropertyConst.PEPPER);

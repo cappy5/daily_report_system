@@ -50,12 +50,25 @@ public enum AttributeConst {
     REP_TITLE("title"),
     REP_CONTENT("content_msg"),
 
-    //フォロワー管理
+    //フォロイー管理
     FOLLOWERS("followers"),
     FOL_COUNT("followers_count"),
-    FOL_IS_FOLLOW("isFollow");
+    FOL_IS_FOLLOW("isFollow"),
 
+    //職位
+    POSITION("position"),
+    POS_CODE("position_code"),
+    POS_NAME("position_name"),
+    POS_GENERAL(0),
+    POS_CHF(1),
+    POS_MGR(2),
 
+    //承認状況
+    REP_APPROVE_STATUS("approve_status"),
+    REP_APPROVE_STATUS_UNAPPROVED(1),      //未承認
+    REP_APPROVE_STATUS_1ST_APPROVED(2),    //一次承認済み
+    REP_APPROVE_STATUS_FINAL_APPROVED(3),  //最終承認済み
+    REP_APPROVE_STATUS_REJECTED(4);        //差し戻し済み
 
     private final String text;
     private final Integer i;

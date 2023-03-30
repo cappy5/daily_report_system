@@ -53,5 +53,11 @@ public class ReportView {
      */
     private LocalDateTime updatedAt;
 
+    /**
+     * 承認状況
+     */
+    /*
+    private Integer approveStatus;
+    */
 
 }

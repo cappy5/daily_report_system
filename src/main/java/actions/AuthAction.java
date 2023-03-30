@@ -60,7 +60,9 @@ public class AuthAction extends ActionBase {
         String plainPass = getRequestParam(AttributeConst.EMP_PASS);
         String pepper = getContextScope(PropertyConst.PEPPER);
 
+        System.out.println("ログイン処理かいし");
         Boolean isValidateEmployee = service.validateLogin(code, plainPass, pepper);
+        System.out.println("ユーザ認証");
 
         if (isValidateEmployee) {
             if (checkToken()) {
