@@ -164,8 +164,8 @@ public class EmployeeAction extends ActionBase {
 
         if (checkAdmin() && checkToken()) {
 
-            //職位モデルを取得
-            Position pos = posService.findOne(toNumber(AttributeConst.EMPLOYEE.POSITION_CODE.getValue()));
+            //職位データを取得
+            Position pos = posService.findOne(toNumber(getRequestParam(AttributeConst.POS_CODE)));
 
             EmployeeView ev = new EmployeeView(
                     toNumber(getRequestParam(AttributeConst.EMP_ID)),
@@ -178,7 +178,6 @@ public class EmployeeAction extends ActionBase {
                     AttributeConst.DEL_FLAG_FALSE.getIntegerValue(),
                     pos
                     );
-
 
             String pepper = getContextScope(PropertyConst.PEPPER);
 
