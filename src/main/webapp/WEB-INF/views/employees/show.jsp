@@ -28,6 +28,14 @@
                         </c:choose></td>
                 </tr>
                 <tr>
+                    <th>職位</th>
+                        <td><c:choose>
+                            <c:when test="${employee.position.positionCode == AttributeConst.POS_GENERAL.getIntegerValue()}">一般社員</c:when>
+                            <c:when test="${employee.position.positionCode == AttributeConst.POS_CHF.getIntegerValue()}">課長</c:when>
+                            <c:otherwise>部長</c:otherwise>
+                        </c:choose></td>
+                </tr>
+                <tr>
                     <th>登録日時</th>
                     <fmt:parseDate value="${employee.createdAt}" pattern="yyyy-MM-dd'T'HH:mm:ss" var="createDay" type="date" />
                     <td><fmt:formatDate value="${createDay}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

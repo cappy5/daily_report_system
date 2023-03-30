@@ -33,9 +33,9 @@
 
 <label for="${AttributeConst.POS_CODE.getValue()}"></label><br />
 <select name="${AttributeConst.POS_CODE.getValue()}" id="${AttributeConst.POS_CODE.getValue()}">
-    <option value="${AttributeConst.POS_GENERAL.getIntegerValue()}">一般社員</option>
-    <option value="${AttributeConst.POS_CHF.getIntegerValue()}">課長</option>
-    <option value="${AttributeConst.POS_MGR.getIntegerValue()}">部長</option>
+    <option value="${AttributeConst.POS_GENERAL.getIntegerValue()}"<c:if test="${employee.position.positionCode == AttributeConst.POS_GENERAL.getIntegerValue()}"> selected</c:if>>一般社員</option>
+    <option value="${AttributeConst.POS_CHF.getIntegerValue()}"<c:if test="${employee.position.positionCode == AttributeConst.POS_CHF.getIntegerValue()}"> selected</c:if>>課長</option>
+    <option value="${AttributeConst.POS_MGR.getIntegerValue()}"<c:if test="${employee.position.positionCode == AttributeConst.POS_MGR.getIntegerValue()}"> selected</c:if>>部長</option>
 </select>
 <br /><br />
 
