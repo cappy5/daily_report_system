@@ -31,12 +31,14 @@
 </select>
 <br /><br />
 
-<label for="${AttributeConst.EMPLOYEE.POSITION_NAME.getValue()}"></label><br />
-<select name="${AttributeConst.EMPLOYEE.POSITION_NAME.getValue()}" id="${AttributeConst.EMPLOYEE.POSITION_NAME.getValue()}">
-    <option value="${AttributeConst.POS_GENERAL.getValue()}"<c:if test="${employee.position.positionCode == AttributeConst.POS_GENERAL.getValue()}"> selected</c:if>>一般社員</option>
-    <option value="${AttributeConst.POS_CHF.getValue()}"<c:if test="${employee.position.positionCode == AttributeConst.POS_CHF.getValue()}"> selected</c:if>>課長</option>
-    <option value="${AttributeConst.POS_MGR.getValue()}"<c:if test="${employee.position.positionCode == AttributeConst.POS_MGR.getValue()}"> selected</c:if>>部長</option>
+<label for="${AttributeConst.POS_CODE.getValue()}"></label><br />
+<select name="${AttributeConst.POS_CODE.getValue()}" id="${AttributeConst.POS_CODE.getValue()}">
+    <option value="${AttributeConst.POS_GENERAL.getIntegerValue()}">一般社員</option>
+    <option value="${AttributeConst.POS_CHF.getIntegerValue()}">課長</option>
+    <option value="${AttributeConst.POS_MGR.getIntegerValue()}">部長</option>
 </select>
+<br /><br />
+
 <input type="hidden" name="${AttributeConst.EMP_ID.getValue()}" value="${employee.id}" />
 <input type="hidden" name="${AttributeConst.TOKEN.getValue()}" value="${_token}" />
 

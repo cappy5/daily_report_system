@@ -92,8 +92,10 @@ public class EmployeeAction extends ActionBase {
       //CSRF対策 tokenのチェック
         if (checkAdmin() && checkToken()) {
 
-          //職位モデルを取得
-          Position pos = posService.findOne(toNumber(AttributeConst.EMPLOYEE.POSITION_CODE.getValue()));
+          //パラメータの値を元に職位データを取得する
+            System.out.println("POS_CODEの中身:" + toNumber(getRequestParam(AttributeConst.POS_CODE)));
+            Position pos = new Position();
+            pos = posService.findOne(toNumber(getRequestParam(AttributeConst.POS_CODE)));
 
           //パラメータの値を元に従業員情報のインスタンスを作成する
             EmployeeView ev = new EmployeeView(
