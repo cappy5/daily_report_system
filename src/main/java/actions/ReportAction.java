@@ -211,6 +211,37 @@ public class ReportAction extends ActionBase {
     }
 
     /**
+     * 承認を行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void approve() throws ServletException, IOException {
+
+        if (checkToken()) {
+            ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+
+            rv.setApproveStatus(toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED)));
+            rv.setTitle(getRequestParam(AttributeConst.REP_TITLE));
+            rv.setContent(getRequestParam(AttributeConst.REP_CONTENT));
+
+            List<String> errors = service.update(rv);
+
+            if (errors.size() > 0) {
+                putRequestScope(AttributeConst.TOKEN, getTokenId());
+                putRequestScope(AttributeConst.REPORT, rv);
+                putRequestScope(AttributeConst.ERR, errors);
+
+                forward(ForwardConst.FW_REP_EDIT);
+
+            } else {
+                putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
+                redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
+            }
+        }
+    }
+
+
+    /**
      * タイムラインを表示する
      * @throws ServletException
      * @throws IOException
@@ -226,6 +257,7 @@ public class ReportAction extends ActionBase {
         putRequestScope(AttributeConst.REP_COUNT, reportsCount);
         putRequestScope(AttributeConst.PAGE, page);
         putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
+        putRequestScope(AttributeConst.EMPLOYEE, loginEmp);
 
         String flush = getSessionScope(AttributeConst.FLUSH);
         if (flush != null) {

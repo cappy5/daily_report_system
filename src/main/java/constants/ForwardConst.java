@@ -28,6 +28,7 @@ public enum ForwardConst {
     CMD_UPDATE("update"),
     CMD_DESTROY("destroy"),
     CMD_TIMELINE("timeline"),
+    CMD_APPROVE("approve"),
 
     //jsp
     FW_ERR_UNKNOWN("error/unknown"),

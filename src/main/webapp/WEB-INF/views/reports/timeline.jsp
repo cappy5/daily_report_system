@@ -9,6 +9,7 @@
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 <c:set var="commTimeline" value="${ForwardConst.CMD_TIMELINE.getValue()}" />
+<c:set var="commApprove" value="${ForwardConst.CMD_APPROVE.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -24,8 +25,8 @@
                 <th class="report_name">氏名</th>
                 <th class="report_date">日付</th>
                 <th class="report_title">タイトル</th>
-                <th class="report_action">操作</th>
                 <th class="report_status">承認状況</th>
+                <th class="report_action">操作</th>
             </tr>
 
             <c:forEach var="report" items="${reports}" varStatus="status">
@@ -34,13 +35,37 @@
                     <td class="report_name"><c:out value="${report.employee.name}" /></td>
                     <td class="report_date"><fmt:formatDate value="${reportDay}" pattern='yyyy-MM-dd' /></td>
                     <td class="report_title"><c:out value="${report.title}" /></td>
-                    <td class="report_action"><a href="<c:url value='?action=${actRep}&command=${commShow}&id=${report.id}' />">詳細</a></td>
                     <td class="report_status">
                         <c:choose>
                             <c:when test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue()}">未承認</c:when>
                             <c:when test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">一次承認済</c:when>
-                            <c:otherwise>最終承認済</c:otherwise>
+                            <c:when test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}">最終承認済</c:when>
+                            <c:otherwise>差し戻し済</c:otherwise>
                         </c:choose>
+                    </td>
+                    <td class="report_action">
+                        <a href="<c:url value='?action=${actRep}&command=${commShow}&id=${report.id}' />">詳細</a>
+                        <c:choose>
+                            <c:when test="${sessionScope.login_employee.position.positionCode == AttributeConst.POS_CHF.getIntegerValue()}">
+                                <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue() || report.approveStatus == AttributeConst.REP_APPROVE_STATUS_REJECTED.getIntegerValue()}">
+                                    <a href="<c:url value='?action=${actRep}&command=${commApprove}&id=${report.id}' />">承認</a>
+                                </c:if>
+                                <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">
+                                    <a href="<c:url value='?action=${actRep}&command=${commReject}&id=${report.id}' />">差戻し</a>
+                                </c:if>
+                            </c:when>
+                            <c:when test="${sessionScope.login_employee.position.positionCode == AttributeConst.POS_MGR.getIntegerValue()}">
+                                <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">
+                                    <a href="<c:url value='?action=${actRep}&command=${commApprove}&id=${report.id}' />">承認</a>
+                                </c:if>
+                                <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}">
+                                    <a href="<c:url value='?action=${actRep}&command=${commReject}&id=${report.id}' />">差戻し</a>
+                                </c:if>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
+
                     </td>
                 </tr>
             </c:forEach>
