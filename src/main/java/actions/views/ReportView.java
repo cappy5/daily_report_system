@@ -56,8 +56,6 @@ public class ReportView {
     /**
      * 承認状況
      */
-    /*
     private Integer approveStatus;
-    */
 
 }

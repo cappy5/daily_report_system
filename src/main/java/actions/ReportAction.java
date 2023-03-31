@@ -112,7 +112,8 @@ public class ReportAction extends ActionBase {
                 getRequestParam(AttributeConst.REP_TITLE),
                 getRequestParam(AttributeConst.REP_CONTENT),
                 null,
-                null
+                null,
+                AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue()
                 );
 
             List<String> errors = service.create(rv);
