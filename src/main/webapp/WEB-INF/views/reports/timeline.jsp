@@ -48,7 +48,7 @@
                         <c:choose>
                             <c:when test="${sessionScope.login_employee.position.positionCode == AttributeConst.POS_CHF.getIntegerValue()}">
                                 <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue() || report.approveStatus == AttributeConst.REP_APPROVE_STATUS_REJECTED.getIntegerValue()}">
-                                    <a href="<c:url value='?action=${actRep}&command=${commApprove}&id=${report.id}' />">承認</a>
+                                    <a href="<c:url value='?action=${actRep}&command=${commApprove}&id=${report.id}' />">一次承認</a>
                                 </c:if>
                                 <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">
                                     <a href="<c:url value='?action=${actRep}&command=${commReject}&id=${report.id}' />">差戻し</a>
@@ -56,7 +56,7 @@
                             </c:when>
                             <c:when test="${sessionScope.login_employee.position.positionCode == AttributeConst.POS_MGR.getIntegerValue()}">
                                 <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">
-                                    <a href="<c:url value='?action=${actRep}&command=${commApprove}&id=${report.id}' />">承認</a>
+                                    <a href="<c:url value='?action=${actRep}&command=${commApprove}&id=${report.id}' />">最終承認</a>
                                 </c:if>
                                 <c:if test="${report.approveStatus == AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}">
                                     <a href="<c:url value='?action=${actRep}&command=${commReject}&id=${report.id}' />">差戻し</a>

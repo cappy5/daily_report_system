@@ -217,27 +217,26 @@ public class ReportAction extends ActionBase {
      */
     public void approve() throws ServletException, IOException {
 
-        if (checkToken()) {
-            ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
 
-            rv.setApproveStatus(toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED)));
-            rv.setTitle(getRequestParam(AttributeConst.REP_TITLE));
-            rv.setContent(getRequestParam(AttributeConst.REP_CONTENT));
-
-            List<String> errors = service.update(rv);
-
-            if (errors.size() > 0) {
-                putRequestScope(AttributeConst.TOKEN, getTokenId());
-                putRequestScope(AttributeConst.REPORT, rv);
-                putRequestScope(AttributeConst.ERR, errors);
-
-                forward(ForwardConst.FW_REP_EDIT);
-
-            } else {
-                putSessionScope(AttributeConst.FLUSH, MessageConst.I_UPDATED.getMessage());
-                redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
-            }
+        if (loginEmp.getPosition().getPositionCode() == JpaConst.POS_POSITION_CHF) {
+            rv.setApproveStatus(JpaConst.REP_APPROVE_STATUS_1ST_APPROVED);
+        } else if (loginEmp.getPosition().getPositionCode() == JpaConst.POS_POSITION_MGR) {
+            rv.setApproveStatus(JpaConst.REP_APPROVE_STATUS_FINAL_APPROVED);
         }
+
+        List<String> errors = service.update(rv);
+
+        if (errors.size() > 0) {
+            putRequestScope(AttributeConst.TOKEN, getTokenId());
+            putRequestScope(AttributeConst.REPORT, rv);
+            putRequestScope(AttributeConst.ERR, errors);
+
+        } else {
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_APPROVED.getMessage());
+        }
+        redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
     }
 
 
