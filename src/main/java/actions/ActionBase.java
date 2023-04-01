@@ -125,7 +125,6 @@ public abstract class ActionBase {
     protected boolean checkToken() throws ServletException, IOException {
 
         //パラメータからtokenの値を取得
-        System.out.println(getRequestParam(AttributeConst.TOKEN));
         String _token = getRequestParam(AttributeConst.TOKEN);
 
         if (_token == null || !(_token.equals(getTokenId()))) {
