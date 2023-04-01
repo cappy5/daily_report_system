@@ -14,8 +14,10 @@ import constants.ForwardConst;
 import constants.JpaConst;
 import constants.MessageConst;
 import models.Employee;
+import models.Position;
 import services.EmployeeService;
 import services.FollowService;
+import services.PositionService;
 import services.ReportService;
 
 /**
@@ -27,6 +29,7 @@ public class ReportAction extends ActionBase {
     private ReportService service;
     private FollowService followService;
     private EmployeeService empService;
+    private PositionService posService;
 
     /**
      * メソッドを実行する
@@ -37,12 +40,14 @@ public class ReportAction extends ActionBase {
         service = new ReportService();
         followService = new FollowService();
         empService = new EmployeeService();
+        posService = new PositionService();
 
         invoke();
 
         service.close();
         followService.close();
         empService.close();
+        posService.close();
 
     }
 
@@ -238,7 +243,32 @@ public class ReportAction extends ActionBase {
         }
         redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
     }
+    /**
+     * 差し戻しを行う
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void reject() throws ServletException, IOException {
 
+        ReportView rv = service.findOne(toNumber(getRequestParam(AttributeConst.REP_ID)));
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
+
+        if (loginEmp.getPosition().getPositionCode() == JpaConst.POS_POSITION_CHF || loginEmp.getPosition().getPositionCode() == JpaConst.POS_POSITION_MGR) {
+            rv.setApproveStatus(JpaConst.REP_APPROVE_STATUS_REJECTED);
+        }
+
+        List<String> errors = service.update(rv);
+
+        if (errors.size() > 0) {
+            putRequestScope(AttributeConst.TOKEN, getTokenId());
+            putRequestScope(AttributeConst.REPORT, rv);
+            putRequestScope(AttributeConst.ERR, errors);
+
+        } else {
+            putSessionScope(AttributeConst.FLUSH, MessageConst.I_REJECTED.getMessage());
+        }
+        redirect(ForwardConst.ACT_REP, ForwardConst.CMD_INDEX);
+    }
 
     /**
      * タイムラインを表示する
@@ -252,11 +282,14 @@ public class ReportAction extends ActionBase {
         List<ReportView> reports = service.getAllTimelinePerPage(loginEmp, page);
         long reportsCount = service.countAllTimeline(loginEmp);
 
+        List<Position> positions = posService.getAll();
+
         putRequestScope(AttributeConst.REPORTS, reports);
         putRequestScope(AttributeConst.REP_COUNT, reportsCount);
         putRequestScope(AttributeConst.PAGE, page);
         putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
         putRequestScope(AttributeConst.EMPLOYEE, loginEmp);
+        putRequestScope(AttributeConst.POSITIONS, positions);
 
         String flush = getSessionScope(AttributeConst.FLUSH);
         if (flush != null) {

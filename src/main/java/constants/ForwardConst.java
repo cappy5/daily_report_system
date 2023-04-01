@@ -29,6 +29,8 @@ public enum ForwardConst {
     CMD_DESTROY("destroy"),
     CMD_TIMELINE("timeline"),
     CMD_APPROVE("approve"),
+    CMD_REJECT("reject"),
+    CMD_SEARCH("search"),
 
     //jsp
     FW_ERR_UNKNOWN("error/unknown"),
@@ -44,6 +46,7 @@ public enum ForwardConst {
     FW_REP_EDIT("reports/edit"),
     FW_FOL_INDEX("follows/index"),
     FW_REP_TIMELINE("reports/timeline");
+
 
     /**
      * 文字列

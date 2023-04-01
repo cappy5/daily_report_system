@@ -10,6 +10,8 @@
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 <c:set var="commTimeline" value="${ForwardConst.CMD_TIMELINE.getValue()}" />
 <c:set var="commApprove" value="${ForwardConst.CMD_APPROVE.getValue()}" />
+<c:set var="commReject" value="${ForwardConst.CMD_REJECT.getValue()}" />
+<c:set var="commSearch" value="${ForwardConst.CMD_SEARCH.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -19,6 +21,17 @@
         </div>
     </c:if>
     <h2>フォローしている従業員のタイムライン</h2>
+
+    <form method="POST" action="<c:url value='?action=${actRep}&command=${commSearch}' />">
+        <select>
+            <c:forEach var="position" items="${positions}">
+                <option><c:out value="${position.positionName}" /></option>
+            </c:forEach>
+        </select>
+        <input type="submit" value="検索" >
+    </form>
+    <br /><br />
+
     <table id="talble_list">
         <tbody>
             <tr>

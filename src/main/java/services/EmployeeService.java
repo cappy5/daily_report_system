@@ -9,6 +9,7 @@ import actions.views.EmployeeConverter;
 import actions.views.EmployeeView;
 import constants.JpaConst;
 import models.Employee;
+import models.Position;
 import models.validators.EmployeeValidator;
 import utils.EncryptUtil;
 
@@ -30,6 +31,23 @@ public class EmployeeService extends ServiceBase {
 
         return EmployeeConverter.toViewList(employees);
     }
+
+    /**
+     * 指定された職位で、指定されたページ数の一覧画面に表示するデータを取得し、EmployeeViewのリストで返却する
+     * @param page ページ数
+     * @param positionCode 職位
+     * @return 表示するデータのリスト
+     */
+    public List<EmployeeView> getEmpByPosCodePerPage(int page, Position position) {
+        List<Employee> employees = em.createNamedQuery(JpaConst.Q_EMP_GET_EMP_BY_POS_CODE, Employee.class)
+                .setParameter(JpaConst.JPQL_PARM_POSITION, position)
+                .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+                .setMaxResults(JpaConst.ROW_PER_PAGE)
+                .getResultList();
+
+        return EmployeeConverter.toViewList(employees);
+    }
+
 
     /**
      * 従業員テーブルのデータの件数を取得し、返却する

@@ -82,6 +82,7 @@ public interface JpaConst {
     String JPQL_PARM_FOLLOWED_EMPLOYEE = "followedEmployee"; //フォローされている従業員（オブジェクト）
     String JPQL_PARM_REPORT_ID = "reportId"; //レポートid
     String JPQL_PARM_POS_CODE = "positionCode"; //職位コード
+    String JPQL_PARM_POSITION = "position"; //職位
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -137,5 +138,12 @@ public interface JpaConst {
     String Q_POS_BY_POSCODE = ENTITY_POS + ".getPosByPosCode";
     String Q_POS_BY_POSCODE_DEF = "SELECT p FROM Position AS p WHERE p.positionCode = :" + JPQL_PARM_POS_CODE;
 
+    //有効な職位データを全件取得(職位コード昇順)
+    String Q_POS_GET_ALL = ENTITY_POS + ".getAll";
+    String Q_POS_GET_ALL_DEF = "SELECT p FROM Position AS p WHERE p.deleteFlag = 0 ORDER BY p.positionCode ASC";
+
+    //職位コードを条件に従業員データを取得する（社員番号昇順）
+    String Q_EMP_GET_EMP_BY_POS_CODE = ENTITY_EMP + ".getEmpByPosCode";
+    String Q_EMP_GET_EMP_BY_POS_CODE_DEF = "SELECT e FROM Employee AS e WHERE e.position = :" + JPQL_PARM_POSITION + " ORDER BY e.code ASC";
 
 }

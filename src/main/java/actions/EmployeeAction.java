@@ -48,14 +48,17 @@ public class EmployeeAction extends ActionBase {
 
         if (checkAdmin()) {
             int page = getPage();
+
             List<EmployeeView> employees = service.getPerPage(page);
 
             long employeeCount = service.countAll();
+            List<Position> positions = posService.getAll();
 
             putRequestScope(AttributeConst.EMPLOYEES, employees);
             putRequestScope(AttributeConst.EMP_COUNT, employeeCount);
             putRequestScope(AttributeConst.PAGE, page);
             putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
+            putRequestScope(AttributeConst.POSITIONS, positions);
 
             String flush = getSessionScope(AttributeConst.FLUSH);
             if (flush != null) {
@@ -222,4 +225,41 @@ public class EmployeeAction extends ActionBase {
         }
     }
 
-}
+    /**
+     * 検索条件に紐付く従業員データを取得し、一覧に検索結果を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void search() throws ServletException, IOException {
+
+        System.out.println("POS_CODE:" + (getRequestParam(AttributeConst.POS_CODE)));
+
+        //職位データを取得
+        Position selectedPosition = posService.findOne(toNumber(getRequestParam(AttributeConst.POS_CODE)));
+
+
+        if (checkAdmin()) {
+            int page = getPage();
+
+            List<EmployeeView> employees = service.getEmpByPosCodePerPage(page, selectedPosition);
+
+            long employeeCount = service.countAll();
+            List<Position> positions = posService.getAll();
+
+            putRequestScope(AttributeConst.EMPLOYEES, employees);
+            putRequestScope(AttributeConst.EMP_COUNT, employeeCount);
+            putRequestScope(AttributeConst.PAGE, page);
+            putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
+            putRequestScope(AttributeConst.POSITIONS, positions);
+
+            String flush = getSessionScope(AttributeConst.FLUSH);
+            if (flush != null) {
+                putRequestScope(AttributeConst.FLUSH, flush);
+                removeSessionScope(AttributeConst.FLUSH);
+            }
+
+            forward(ForwardConst.FW_EMP_INDEX);
+        }
+
+        }
+    }

@@ -57,6 +57,7 @@ public enum AttributeConst {
 
     //職位
     POSITION("position"),
+    POSITIONS("positions"),
     POS_CODE("position_code"),
     POS_NAME("position_name"),
     POS_GENERAL(0),

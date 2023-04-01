@@ -7,6 +7,7 @@
 <c:set var="commShow" value="${ForwardConst.CMD_SHOW.getValue()}" />
 <c:set var="commNew" value="${ForwardConst.CMD_NEW.getValue()}" />
 <c:set var="commIdx" value="${ForwardConst.CMD_INDEX.getValue() }" />
+<c:set var="commSearch" value="${ForwardConst.CMD_SEARCH.getValue() }" />
 
 <c:import url="../layout/app.jsp">
 
@@ -18,17 +19,31 @@
             </div>
         </c:if>
         <h2>従業員　一覧</h2>
+
+        <form method="POST" action="<c:url value='?action=${actEmp}&command=${commSearch}' />">
+            職位:&nbsp;
+            <select name="${AttributeConst.POS_CODE.getValue()}" id="${AttributeConst.POS_CODE.getValue()}">
+                <c:forEach var="position" items="${positions}">
+                    <option value="${position.positionCode}"><c:out value="${position.positionName}"/></option><c:out value="${position.positionCode}"/>
+                </c:forEach>
+            </select>
+            <input type="submit" value="検索" >
+        </form>
+        <br /><br />
+
         <table id="employee_list">
             <tbody>
             <tr>
                 <th>社員番号</th>
                 <th>氏名</th>
+                <th>職位</th>
                 <th>操作</th>
             </tr>
             <c:forEach var="employee" items="${employees}" varStatus="status">
                 <tr class="row${status.count % 2}">
                     <td><c:out value="${employee.code}" /></td>
                     <td><c:out value="${employee.name}" /></td>
+                    <td><c:out value="${employee.position.positionName}" /></td>
                     <td>
                         <c:choose>
                             <c:when test="${employee.deleteFlag == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()}">
