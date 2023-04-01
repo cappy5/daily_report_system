@@ -81,7 +81,6 @@ public class EmployeeService extends ServiceBase {
 
         } catch (NoResultException ex) {
         }
-        System.out.println("社員取得完了");
 
         return EmployeeConverter.toView(e);
 
@@ -225,9 +224,7 @@ public class EmployeeService extends ServiceBase {
 
         boolean isValidEmployee = false;
         if (code != null && !code.equals("") && plainPass != null && !plainPass.equals("")) {
-            System.out.println("findoneかいし");
             EmployeeView ev = findOne(code, plainPass, pepper);
-            System.out.println("findOne終了");
 
             if (ev != null && ev.getId() != null) {
 

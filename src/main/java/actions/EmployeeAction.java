@@ -96,7 +96,6 @@ public class EmployeeAction extends ActionBase {
         if (checkAdmin() && checkToken()) {
 
           //パラメータの値を元に職位データを取得する
-            System.out.println("POS_CODEの中身:" + toNumber(getRequestParam(AttributeConst.POS_CODE)));
             Position pos = new Position();
             pos = posService.findOne(toNumber(getRequestParam(AttributeConst.POS_CODE)));
 
@@ -231,8 +230,6 @@ public class EmployeeAction extends ActionBase {
      * @throws IOException
      */
     public void search() throws ServletException, IOException {
-
-        System.out.println("POS_CODE:" + (getRequestParam(AttributeConst.POS_CODE)));
 
         //職位データを取得
         Position selectedPosition = posService.findOne(toNumber(getRequestParam(AttributeConst.POS_CODE)));

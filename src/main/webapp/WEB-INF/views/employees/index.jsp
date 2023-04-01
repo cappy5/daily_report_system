@@ -24,7 +24,7 @@
             職位:&nbsp;
             <select name="${AttributeConst.POS_CODE.getValue()}" id="${AttributeConst.POS_CODE.getValue()}">
                 <c:forEach var="position" items="${positions}">
-                    <option value="${position.positionCode}"><c:out value="${position.positionName}"/></option><c:out value="${position.positionCode}"/>
+                    <option value="${position.positionCode}"><c:out value="${position.positionName}"/></option>
                 </c:forEach>
             </select>
             <input type="submit" value="検索" >
