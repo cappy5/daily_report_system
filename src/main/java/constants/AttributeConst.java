@@ -70,6 +70,7 @@ public enum AttributeConst {
     REP_APPROVE_STATUS_1ST_APPROVED(2),    //一次承認済み
     REP_APPROVE_STATUS_FINAL_APPROVED(3),  //最終承認済み
     REP_APPROVE_STATUS_REJECTED(4),        //差し戻し済み
+    REP_APPROVE_STATUS_ALL(0),              //すべて
 
     //検索
     REP_SELECTED_APPROVE_STATUS("selected_approve_status"),

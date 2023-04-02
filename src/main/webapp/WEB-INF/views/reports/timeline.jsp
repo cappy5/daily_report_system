@@ -12,6 +12,7 @@
 <c:set var="commApprove" value="${ForwardConst.CMD_APPROVE.getValue()}" />
 <c:set var="commReject" value="${ForwardConst.CMD_REJECT.getValue()}" />
 <c:set var="commSearch" value="${ForwardConst.CMD_SEARCH.getValue()}" />
+<c:set var="selectedCondition" value="${AttributeConst.REP_APPROVE_STATUS.getValue()}" />
 
 <c:import url="/WEB-INF/views/layout/app.jsp">
     <c:param name="content">
@@ -22,9 +23,10 @@
     </c:if>
     <h2>フォローしている従業員のタイムライン</h2>
 
-    <form method="POST" action="<c:url value='?action=${actRep}&command=${commSearch}' />">
+    <form method="POST" action="<c:url value='?action=${actRep}&command=${commTimeline}' />">
         承認状況:
         <select name="${AttributeConst.REP_APPROVE_STATUS.getValue()}" id="${AttributeConst.REP_APPROVE_STATUS.getValue()}">
+            <option value="${AttributeConst.REP_APPROVE_STATUS_ALL.getIntegerValue()}">すべて</option>
             <option value="${AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue()}">未承認</option>
             <option value="${AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">一次承認済</option>
             <option value="${AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}">最終承認済</option>
@@ -95,7 +97,7 @@
                     <c:out value="${i}" />&nbsp;
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='?action=${actRep}&command=${commTimeline}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                    <a href="<c:url value='?action=${actRep}&command=${commTimeline}&page=${i}&selected_approve_status=${selectedCondition}' />"><c:out value="${i}" /></a>&nbsp;
                 </c:otherwise>
             </c:choose>
         </c:forEach>

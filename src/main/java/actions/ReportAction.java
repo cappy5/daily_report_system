@@ -2,6 +2,7 @@ package actions;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -78,48 +79,6 @@ public class ReportAction extends ActionBase {
 
     }
 
-
-    /**
-     * 検索結果を表示する
-     * @throws ServletException
-     * @throws IOException
-     */
-    public void search() throws ServletException, IOException {
-
-        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
-
-        int page = getPage();
-
-        /*
-        List<ReportView> reports = service.getAllPerPage(page);
-
-        //Steamクラスのfilterで対象の日報を抽出
-        reports = (List<ReportView>) reports.stream()
-                        .filter(x -> x.getApproveStatus() == selectedApproveStatus)
-                        .collect(Collectors.toList());
-*/
-
-        int selectedApproveStatus = toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS));
-
-        List<ReportView> reports = service.getRepByStatusPerPage(loginEmp, selectedApproveStatus, page);
-
-        long reportsCount = service.countByStatus(loginEmp, selectedApproveStatus);
-
-        putRequestScope(AttributeConst.REPORTS, reports);
-        putRequestScope(AttributeConst.REP_COUNT, reportsCount);
-        putRequestScope(AttributeConst.PAGE, page);
-        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
-        putRequestScope(AttributeConst.REP_SELECTED_APPROVE_STATUS, selectedApproveStatus); //検索条件で選択された承認状況
-
-        String flush = getSessionScope(AttributeConst.FLUSH);
-        if (flush != null) {
-            putRequestScope(AttributeConst.FLUSH, flush);
-            removeSessionScope(AttributeConst.FLUSH);
-        }
-
-        forward(ForwardConst.FW_REP_TIMELINE_RESULT);
-
-    }
 
 
     /**
@@ -323,10 +282,21 @@ public class ReportAction extends ActionBase {
 
         int page = getPage();
         Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
-        List<ReportView> reports = service.getAllTimelinePerPage(loginEmp, page);
-        long reportsCount = service.countAllTimeline(loginEmp);
-
         List<Position> positions = posService.getAll();
+        int selectedApproveStatus = toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS));
+        List<ReportView> reports = new ArrayList<ReportView>();
+        long reportsCount;
+
+        //検索条件に基づきデータ取得
+        //検索条件が「承認状況＝すべて」の場合
+        if (selectedApproveStatus == toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS_ALL))) {
+            reports = service.getAllTimelinePerPage(loginEmp, page);
+            reportsCount = service.countAllTimeline(loginEmp);
+        //検索条件が「承認状況＝すべて」以外の場合
+        } else {
+            reports = service.getRepByStatusPerPage(loginEmp, selectedApproveStatus, page);
+            reportsCount = service.countByStatus(loginEmp, selectedApproveStatus);
+        }
 
         putRequestScope(AttributeConst.REPORTS, reports);
         putRequestScope(AttributeConst.REP_COUNT, reportsCount);
@@ -334,6 +304,7 @@ public class ReportAction extends ActionBase {
         putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
         putRequestScope(AttributeConst.EMPLOYEE, loginEmp);
         putRequestScope(AttributeConst.POSITIONS, positions);
+        putRequestScope(AttributeConst.REP_SELECTED_APPROVE_STATUS, selectedApproveStatus);
 
         String flush = getSessionScope(AttributeConst.FLUSH);
         if (flush != null) {

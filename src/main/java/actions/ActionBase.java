@@ -161,6 +161,16 @@ public abstract class ActionBase {
     }
 
     /**
+     * リクエストから表示を要求されている承認状況を取得し、返却する
+     * @return 要求されている承認状況
+     */
+    protected int getSelectedApproveStatus() {
+        int selectedApproveStatus;
+        selectedApproveStatus = toNumber(request.getParameter(AttributeConst.REP_SELECTED_APPROVE_STATUS.getValue()));
+        return selectedApproveStatus;
+    }
+
+    /**
      * 文字列を数値に変換する
      * @param strNumber 変換前文字列
      * @return 変換後数値
