@@ -281,15 +281,22 @@ public class ReportAction extends ActionBase {
     public void timeline() throws ServletException, IOException {
 
         int page = getPage();
+
+        //セッションスコープからデータ取得
         Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
+
         List<Position> positions = posService.getAll();
-        int selectedApproveStatus = toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS));
+
+        int selectedApproveStatus = getRequestParam(AttributeConst.REP_APPROVE_STATUS) == null || getRequestParam(AttributeConst.REP_APPROVE_STATUS).length() == 0
+                                    ? AttributeConst.REP_APPROVE_STATUS_ALL.getIntegerValue() //0
+                                    : toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS));
+
         List<ReportView> reports = new ArrayList<ReportView>();
         long reportsCount;
 
         //検索条件に基づきデータ取得
         //検索条件が「承認状況＝すべて」の場合
-        if (selectedApproveStatus == toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS_ALL))) {
+        if (selectedApproveStatus == AttributeConst.REP_APPROVE_STATUS_ALL.getIntegerValue()) {
             reports = service.getAllTimelinePerPage(loginEmp, page);
             reportsCount = service.countAllTimeline(loginEmp);
         //検索条件が「承認状況＝すべて」以外の場合
