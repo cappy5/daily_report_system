@@ -248,12 +248,14 @@ public class EmployeeAction extends ActionBase {
             putRequestScope(AttributeConst.PAGE, page);
             putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
             putRequestScope(AttributeConst.POSITIONS, positions);
+            putRequestScope(AttributeConst.POS_SELECTED_POSITION, selectedPosition);
 
             String flush = getSessionScope(AttributeConst.FLUSH);
             if (flush != null) {
                 putRequestScope(AttributeConst.FLUSH, flush);
                 removeSessionScope(AttributeConst.FLUSH);
             }
+
 
             forward(ForwardConst.FW_EMP_INDEX);
         }

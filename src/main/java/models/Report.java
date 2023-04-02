@@ -44,7 +44,13 @@ import lombok.Setter;
             query = JpaConst.Q_REP_GET_ALL_FOLOWEE_REPORT_DEF),
     @NamedQuery(
             name = JpaConst.Q_REP_COUNT_FOLOWEE_REPORT,
-            query = JpaConst.Q_REP_COUNT_FOLOWEE_REPORT_DEF)
+            query = JpaConst.Q_REP_COUNT_FOLOWEE_REPORT_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_REP_COUNT_FOLOWEE_REPORT_BY_STATUS,
+            query = JpaConst.Q_REP_COUNT_FOLOWEE_REPORT_BY_STATUS_DEF),
+    @NamedQuery(
+            name = JpaConst.Q_REP_GET_FOLOWEE_REPORT_BY_STATUS,
+            query = JpaConst.Q_REP_GET_FOLOWEE_REPORT_BY_STATUS_DEF)
 })
 @Getter
 @Setter

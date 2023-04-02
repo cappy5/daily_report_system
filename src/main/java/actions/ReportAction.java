@@ -78,6 +78,50 @@ public class ReportAction extends ActionBase {
 
     }
 
+
+    /**
+     * 検索結果を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void search() throws ServletException, IOException {
+
+        Employee loginEmp = EmployeeConverter.toModel(getSessionScope(AttributeConst.LOGIN_EMP));
+
+        int page = getPage();
+
+        /*
+        List<ReportView> reports = service.getAllPerPage(page);
+
+        //Steamクラスのfilterで対象の日報を抽出
+        reports = (List<ReportView>) reports.stream()
+                        .filter(x -> x.getApproveStatus() == selectedApproveStatus)
+                        .collect(Collectors.toList());
+*/
+
+        int selectedApproveStatus = toNumber(getRequestParam(AttributeConst.REP_APPROVE_STATUS));
+
+        List<ReportView> reports = service.getRepByStatusPerPage(loginEmp, selectedApproveStatus, page);
+
+        long reportsCount = service.countByStatus(loginEmp, selectedApproveStatus);
+
+        putRequestScope(AttributeConst.REPORTS, reports);
+        putRequestScope(AttributeConst.REP_COUNT, reportsCount);
+        putRequestScope(AttributeConst.PAGE, page);
+        putRequestScope(AttributeConst.MAX_ROW, JpaConst.ROW_PER_PAGE);
+        putRequestScope(AttributeConst.REP_SELECTED_APPROVE_STATUS, selectedApproveStatus); //検索条件で選択された承認状況
+
+        String flush = getSessionScope(AttributeConst.FLUSH);
+        if (flush != null) {
+            putRequestScope(AttributeConst.FLUSH, flush);
+            removeSessionScope(AttributeConst.FLUSH);
+        }
+
+        forward(ForwardConst.FW_REP_TIMELINE_RESULT);
+
+    }
+
+
     /**
      * 新規登録画面を表示する
      * @throws ServletException

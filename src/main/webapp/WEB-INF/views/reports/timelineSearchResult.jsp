@@ -23,14 +23,16 @@
     <h2>フォローしている従業員のタイムライン</h2>
 
     <form method="POST" action="<c:url value='?action=${actRep}&command=${commSearch}' />">
+
         承認状況:
         <select name="${AttributeConst.REP_APPROVE_STATUS.getValue()}" id="${AttributeConst.REP_APPROVE_STATUS.getValue()}">
-            <option value="${AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue()}">未承認</option>
-            <option value="${AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}">一次承認済</option>
-            <option value="${AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}">最終承認済</option>
-            <option value="${AttributeConst.REP_APPROVE_STATUS_REJECTED.getIntegerValue()}">差戻し済</option>
+            <option value="${AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue()}"<c:if test="${selected_approve_status == AttributeConst.REP_APPROVE_STATUS_UNAPPROVED.getIntegerValue()}"> selected</c:if>>未承認</option>
+            <option value="${AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}"<c:if test="${selected_approve_status == AttributeConst.REP_APPROVE_STATUS_1ST_APPROVED.getIntegerValue()}"> selected</c:if>>一次承認済</option>
+            <option value="${AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}"<c:if test="${selected_approve_status == AttributeConst.REP_APPROVE_STATUS_FINAL_APPROVED.getIntegerValue()}"> selected</c:if>>最終承認済</option>
+            <option value="${AttributeConst.REP_APPROVE_STATUS_REJECTED.getIntegerValue()}"<c:if test="${selected_approve_status == AttributeConst.REP_APPROVE_STATUS_REJECTED.getIntegerValue()}"> selected</c:if>>差戻し済</option>
         </select>
         <input type="submit" value="検索" >
+        <p><a href="<c:url value='?action=${actRep}&command=${commTimeline}' />">検索条件をクリア</a></p>
     </form>
     <br /><br />
 
@@ -95,11 +97,10 @@
                     <c:out value="${i}" />&nbsp;
                 </c:when>
                 <c:otherwise>
-                    <a href="<c:url value='?action=${actRep}&command=${commTimeline}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
+                    <a href="<c:url value='?action=${actRep}&command=${commSearch}&page=${i}' />"><c:out value="${i}" /></a>&nbsp;
                 </c:otherwise>
             </c:choose>
         </c:forEach>
     </div>
-    <p><a href="<c:url value='?action=${actRep}&command=${commIdx}' />">日報一覧に戻る</a></p>
     </c:param>
 </c:import>

@@ -69,7 +69,11 @@ public enum AttributeConst {
     REP_APPROVE_STATUS_UNAPPROVED(1),      //未承認
     REP_APPROVE_STATUS_1ST_APPROVED(2),    //一次承認済み
     REP_APPROVE_STATUS_FINAL_APPROVED(3),  //最終承認済み
-    REP_APPROVE_STATUS_REJECTED(4);        //差し戻し済み
+    REP_APPROVE_STATUS_REJECTED(4),        //差し戻し済み
+
+    //検索
+    REP_SELECTED_APPROVE_STATUS("selected_approve_status"),
+    POS_SELECTED_POSITION("selected_position_code");
 
     private final String text;
     private final Integer i;

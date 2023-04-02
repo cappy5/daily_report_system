@@ -83,6 +83,7 @@ public interface JpaConst {
     String JPQL_PARM_REPORT_ID = "reportId"; //レポートid
     String JPQL_PARM_POS_CODE = "positionCode"; //職位コード
     String JPQL_PARM_POSITION = "position"; //職位
+    String JPQL_PARM_STATUS = "approveStatus"; //職位
 
     //NamedQueryの nameとquery
     //全ての従業員をidの降順に取得する
@@ -145,5 +146,13 @@ public interface JpaConst {
     //職位コードを条件に従業員データを取得する（社員番号昇順）
     String Q_EMP_GET_EMP_BY_POS_CODE = ENTITY_EMP + ".getEmpByPosCode";
     String Q_EMP_GET_EMP_BY_POS_CODE_DEF = "SELECT e FROM Employee AS e WHERE e.position = :" + JPQL_PARM_POSITION + " ORDER BY e.code ASC";
+
+    //ログイン従業員IDを条件にフォローしている日報件数のうち、指定した承認状況の件数のみ取得
+    String Q_REP_COUNT_FOLOWEE_REPORT_BY_STATUS = ENTITY_FOL + ".countFoloweeReportByStatus";
+    String Q_REP_COUNT_FOLOWEE_REPORT_BY_STATUS_DEF = "SELECT COUNT(r) FROM Report AS r, Follow AS f WHERE r.employee = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE +" AND r.approveStatus = :" + JPQL_PARM_STATUS;
+
+    //ログイン従業員IDを条件にフォローしている日報データのうち、指定した承認状況のデータのみ取得
+    String Q_REP_GET_FOLOWEE_REPORT_BY_STATUS = ENTITY_FOL + ".getFoloweeReportByStatus";
+    String Q_REP_GET_FOLOWEE_REPORT_BY_STATUS_DEF = "SELECT r FROM Report AS r, Follow AS f WHERE r.employee = f.followedEmployee AND f.employee = :" + JPQL_PARM_EMPLOYEE +" AND r.approveStatus = :" + JPQL_PARM_STATUS;
 
 }

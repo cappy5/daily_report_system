@@ -84,6 +84,18 @@ public class ReportService extends ServiceBase {
     }
 
     /**
+     * フォロイーの指定した承認状況の日報件数を取得し、返却する
+     * @return データの件数
+     */
+    public long countByStatus(Employee loginEmp, int approveStatus) {
+        long reports_count = (long) em.createNamedQuery(JpaConst.Q_REP_COUNT_FOLOWEE_REPORT_BY_STATUS, Long.class)
+                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
+                                .setParameter(JpaConst.JPQL_PARM_STATUS, approveStatus)
+                                .getSingleResult();
+        return reports_count;
+    }
+
+    /**
      * タイムライン用の日報テーブルのデータの件数を取得し、返却する
      * @return データの件数
      */
@@ -166,6 +178,17 @@ public class ReportService extends ServiceBase {
         Report r = findOneInternal(rv.getId());
         ReportConverter.copyViewToModel(r, rv);
         em.getTransaction().commit();
+    }
+
+    public List<ReportView> getRepByStatusPerPage(Employee loginEmp, int approveStatus, int page) {
+
+        List<ReportView> result = ReportConverter.toViewList(em.createNamedQuery(JpaConst.Q_REP_GET_FOLOWEE_REPORT_BY_STATUS, Report.class)
+                                                                .setParameter(JpaConst.JPQL_PARM_EMPLOYEE, loginEmp)
+                                                                .setParameter(JpaConst.JPQL_PARM_STATUS, approveStatus)
+                                                                .setFirstResult(JpaConst.ROW_PER_PAGE * (page - 1))
+                                                                .setMaxResults(JpaConst.ROW_PER_PAGE)
+                                                                .getResultList());
+        return result;
     }
 
 

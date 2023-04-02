@@ -45,7 +45,8 @@ public enum ForwardConst {
     FW_REP_NEW("reports/new"),
     FW_REP_EDIT("reports/edit"),
     FW_FOL_INDEX("follows/index"),
-    FW_REP_TIMELINE("reports/timeline");
+    FW_REP_TIMELINE("reports/timeline"),
+    FW_REP_TIMELINE_RESULT("reports/timelineSearchResult");
 
 
     /**
